@@ -1,8 +1,8 @@
 // SETUP LIBRARY
-const dbConfig = require("../config/db.config.js")
 const Sequelize = require("sequelize")
 
 // SETUP FILE
+const dbConfig = require("../config/db.config.js")
 const disease = require("./disease.model.js")
 const user = require("./user.model.js")
 const prediction = require("./prediction.model.js")

@@ -8,6 +8,9 @@ const bodyParser = require("body-parser")
 
 // SETUP DATABASE
 const db = require("./models")
+const userRoutes = require("./routes/user.routes.js")
+const diseaseRoutes = require("./routes/disease.routes.js")
+const predictionRoutes = require("./routes/prediction.routes.js")
 
 // SETUP VARIABLE
 const PORT = process.env.BACKEND_PORT || 3000
@@ -29,6 +32,11 @@ app.use(bodyParser.urlencoded({
 db.sequelize.sync({force: true}).then(() => {
     console.log("Drop and re-sync db.")
 })
+
+// ADD ROUTES
+userRoutes(app)
+diseaseRoutes(app)
+predictionRoutes(app)
 
 // PUT BACKEND ON PORT
 app.listen(PORT, () => {
