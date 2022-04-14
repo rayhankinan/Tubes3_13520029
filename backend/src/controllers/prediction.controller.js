@@ -3,7 +3,7 @@ const Sequelize = require("sequelize")
 
 // SETUP FILE
 const db = require("../models")
-const Prediction = db.prediction
+const Prediction = db.predictions
 
 // FUNCTION
 exports.create = (req, res) => {
