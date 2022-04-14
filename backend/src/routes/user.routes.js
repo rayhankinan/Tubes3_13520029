@@ -8,10 +8,10 @@ module.exports = (app) => {
     const router = express.Router()
 
     router.post("/", users.create)
-    router.get("/:id", users.findOne)
+    router.get("/:Name", users.findOne)
     router.get("/", users.findAll)
-    router.put("/:id", users.update)
-    router.delete("/:id", users.delete)
+    router.put("/:Name", users.update)
+    router.delete("/:Name", users.delete)
     router.delete("/", users.deleteAll)
 
     app.use("/api/users", router)

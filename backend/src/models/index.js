@@ -20,18 +20,18 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 
 const db = {}
 db.sequelize = sequelize
-db.user = user(sequelize)
-db.disease = disease(sequelize)
-db.prediction = prediction(sequelize)
+db.users = user(sequelize)
+db.diseases = disease(sequelize)
+db.predictions = prediction(sequelize)
 
-db.user.belongsToMany(db.disease, {
-    through: db.prediction,
+db.users.belongsToMany(db.diseases, {
+    through: db.predictions,
     onDelete: "CASCADE",
     onUpdate: "CASCADE"
 })
 
-db.disease.belongsToMany(db.user, {
-    through: db.prediction,
+db.diseases.belongsToMany(db.users, {
+    through: db.predictions,
     onDelete: "CASCADE",
     onUpdate: "CASCADE"
 })
