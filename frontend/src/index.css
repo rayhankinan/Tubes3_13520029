@@ -1,13 +1,63 @@
+:root {
+  /* color  */
+  --primary: #28293d;
+  --sections: #2d2f45;
+  --cards: #373951;
+  --bg: #323347;
+  --milk: #c5d2ec;
+  --milk-ligther: #ffffff;
+  --milk-darker: #7f98bc;
+  --peach: #ff7387;
+  --peach-ligher: #ff96a5;
+  --peach-darker: #ef586e;
+  --white: #ffffff;
+  --black: #222222;
+
+  /* button  */
+  --btn-primary: linear-gradient(180deg, #5561ff 0%, #3643fc 100%);
+  --btn-primary-hover: linear-gradient(180deg, #6b75ff 0%, #535fff 100%);
+  --btn-secondary: linear-gradient(180deg, #6e7198 0%, #60648b 100%);
+  --btn-secondary-hover: linear-gradient(180deg, #b9bcd9 0%, #989bc1 100%);
+  
+  /* font  */
+  --h6: 1rem;
+  --h5: 1.25rem;
+  --h4: 1.5rem;
+  --h3: 2rem;
+  --h2: 3rem;
+  --h1: 4rem;
+  --body: 0.75rem;
+  --caption: 1rem;
+  --line-height: 1.5;
+
+  /* spacing  */
+  --spacing-none: 0;
+  --spacing-tiny: 8px;
+  --spacing-small: 16px;
+  --spacing-base: 24px;
+
+  /* radius  */
+  --radius-none: 0;
+  --radius-tiny: 4px;
+  --radius-small: 8px;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
 }
