@@ -79,6 +79,22 @@ code {
   color: var(--white);
 }
 
+.root {
+  min-height: 100vh;
+  background-color: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  margin: var(--spacing-none);
+  color: var(--milk);
+  font-size: var(--h5);
+  padding-left: var(--spacing-small);
+  padding-top: var(--spacing-small);
+  font-weight: var(--bold);
+}
+
 *,
 ::after,
 ::before {

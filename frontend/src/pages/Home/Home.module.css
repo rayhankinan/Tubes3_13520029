@@ -1,17 +1,7 @@
-.root {
-  min-height: 100vh;
-  background-color: var(--bg);
-  display: flex;
-  flex-direction: column;
-}
-
-.title {
-  margin: var(--spacing-none);
-  color: var(--milk);
-  font-size: var(--h5);
-  padding-left: calc(var(--spacing-small));
-  padding-top: calc(var(--spacing-small));
-  font-weight: var(--bold);
+.containerCenter {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 .container {
@@ -32,6 +22,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .card {
