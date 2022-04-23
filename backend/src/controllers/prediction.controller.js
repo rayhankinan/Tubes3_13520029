@@ -107,9 +107,7 @@ exports.update = (req, res) => {
     })
     .then((nums) => {
         if (nums) {
-            res.status(200).send({
-                message: "OK"
-            })
+            res.status(200).send(nums)
         } else {
             res.status(400).send({
                 message: "Bad Request"
@@ -131,9 +129,7 @@ exports.delete = (req, res) => {
     })
     .then((nums) => {
         if (nums) {
-            res.status(200).send({
-                message: "OK"
-            })
+            res.status(200).send(nums)
         } else {
             res.status(400).send({
                 message: "Bad Request"
@@ -153,9 +149,7 @@ exports.deleteAll = (req, res) => {
         truncate: false
     })
     .then((nums) => {
-        res.status(200).send({
-            message: "OK"
-        })
+        res.status(200).send(nums)
     })
     .catch((error) => {
         res.status(500).send({
