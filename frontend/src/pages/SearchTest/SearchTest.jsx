@@ -1,12 +1,16 @@
 import styles from "./SearchTest.module.css";
 import { Link } from "react-router-dom";
-import { useState } from "react"
+import { useState, useRef } from "react"
 
 const SearchTest = () => {
+  const searchRef = useRef(null);
+
   const [dummyResults, setDummyResults] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    /* Catatan: akses text yang ada di input search di variabel searchValue! */
+    const searchValue = searchRef.current.value;
     setDummyResults(oldDummyResults => {
       return [
         {
@@ -61,6 +65,7 @@ const SearchTest = () => {
             type="text"
             className={styles.diseaseInput}
             placeholder="Date Disease / Disease / Date"
+            ref={searchRef}
           />
           <button className={styles.searchButton}>Search</button>
         </form>
