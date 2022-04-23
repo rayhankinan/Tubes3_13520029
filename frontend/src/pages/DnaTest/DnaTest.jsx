@@ -1,7 +1,9 @@
-import styles from "./DnaTest.module.css";
 import { Link } from "react-router-dom";
-import UploadImage from "../../assets/images/upload.png";
 import { useRef, useState } from "react";
+import { dnaMatching, inputMatching, parsingDate } from "../../lib";
+import UploadImage from "../../assets/images/upload.png";
+import styles from "./DnaTest.module.css";
+import axios from "axios";
 
 const DnaTest = () => {
   const textRef = useRef(null);
@@ -11,13 +13,15 @@ const DnaTest = () => {
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [data, setData] = useState({});
+
+  const URL = "localhost:3000/api/users";
   
   const dummyData = {
     date: "14 April 2022",
     name: "Marchotridyo",
     disease: "HIV",
     similarity: "30%",
-    result: "False"
+    result: "False",
   };
 
   const handleInputChange = (e) => {
@@ -32,30 +36,32 @@ const DnaTest = () => {
     let similarity = "30%";
     let result = "False";
     const months = [
-      'Januari',
-      'Februari',
-      'Maret',
-      'April',
-      'Mei',
-      'Juni',
-      'Juli',
-      'Agustus',
-      'September',
-      'Oktober',
-      'November',
-      'Desember'
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember",
     ];
     let currentDate = new Date();
-    setData(oldData => {
+    setData((oldData) => {
       return {
-        date: `${currentDate.getDate()} ${months[currentDate.getMonth()]} ${currentDate.getFullYear()}`,
+        date: `${currentDate.getDate()} ${
+          months[currentDate.getMonth()]
+        } ${currentDate.getFullYear()}`,
         name: nameRef.current.value,
         disease: diseaseRef.current.value,
         similarity: similarity,
-        result: result
+        result: result,
       };
     });
-  }
+  };
 
   return (
     <div className={styles.root}>

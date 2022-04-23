@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
 
 :root {
   /* color  */
@@ -21,6 +21,12 @@
   --grape: #7366f3;
   --grape-lighter: #a19afe;
   --grape-darker: #5218ff;
+  --mint: #3eebbe;
+  --mint-lighter: #68fcd6;
+  --mint-darker: #32d4aa;
+  --gum: #e666b3;
+  --gum-ligther: #ff8bd5;
+  --gum-darker: #da46a6;
   --white: #ffffff;
   --white2: rgba(255, 255, 255, 0.8);
   --black: #222222;
