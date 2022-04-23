@@ -12,27 +12,70 @@ const DnaTest = () => {
   const diseaseRef = useRef(null);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [status, setStatus] = useState(false);
   const [data, setData] = useState({});
+  const [date, setDate] = useState("");
+  const [text, setText] = useState("");
+  const [valid, setValid] = useState(true);
+  const [file, setFile] = useState(false);
+  const URL = "http://localhost:3000/api/predictions/";
 
-  const URL = "localhost:3000/api/users";
-  
   const dummyData = {
-    date: "14 April 2022",
-    name: "Marchotridyo",
-    disease: "HIV",
-    similarity: "30%",
-    result: "False",
+    PredictionDate: "14 April 2022",
+    User: "Marchotridyo",
+    Disease: "HIV",
+    Similarity: "30%",
+    PredictionStatus: "False",
   };
 
-  const handleInputChange = (e) => {
+  const showFile = async (e) => {
+    e.preventDefault();
+    setFile(true);
     textRef.current.textContent = "File has been uploaded!";
     infoRef.current.textContent = `${e.target.files[0].name}`;
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      setText(e.target.result.trim());
+      if (dnaMatching(text)) {
+        setValid(true);
+      } else setValid(false);
+    };
+    reader.readAsText(e.target.files[0]);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!file) {
+      window.alert(`Please upload file first!`);
+      return;
+    } else if (!valid) {
+      window.alert(
+        `Please input correct DNA sequence in the'${diseaseRef.current.value}'!`
+      );
+      return;
+    } else {
+      let body = {
+        User: nameRef.current.value,
+        Disease: diseaseRef.current.value,
+        DNASequence: text,
+        IsKMP: true,
+      };
+      axios({
+        method: "post",
+        url: URL,
+        data: body,
+      })
+        .then((res) => {
+          setStatus(true);
+          setData(res.data);
+          const date2 = new Date(res.data.PredictionDate);
+          setDate(date2.toLocaleDateString());
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
     setIsSubmitted(true);
-    /* Fetch data from backend */
     let similarity = "30%";
     let result = "False";
     const months = [
@@ -49,18 +92,6 @@ const DnaTest = () => {
       "November",
       "Desember",
     ];
-    let currentDate = new Date();
-    setData((oldData) => {
-      return {
-        date: `${currentDate.getDate()} ${
-          months[currentDate.getMonth()]
-        } ${currentDate.getFullYear()}`,
-        name: nameRef.current.value,
-        disease: diseaseRef.current.value,
-        similarity: similarity,
-        result: result,
-      };
-    });
   };
 
   return (
@@ -77,42 +108,39 @@ const DnaTest = () => {
             Check if a certain patient has a certain genetic disease.
           </h2>
         </div>
-        <form className={styles.formContainer} onSubmit={handleSubmit}>
-          <input
-            type="text"
-            className={styles.diseaseInput}
-            placeholder="Patient name"
-            ref={nameRef}
-          />
-          <input
-            type="file"
-            id="file-btn"
-            onChange={handleInputChange}
-            hidden
-          />
-          <label htmlFor="file-btn" className={styles.fileUploadLabel}>
-            <div className={styles.fileUploadContainer}>
-              <img
-                src={UploadImage}
-                className={styles.fileUploadImage}
-                alt=""
-              />
-              <p className={styles.fileUploadText} ref={textRef}>
-                Upload DNA sequence here ...
-              </p>
-              <p className={styles.fileUploadInfo} ref={infoRef}>
-                You have not yet uploaded a DNA sequence!
-              </p>
-            </div>
-          </label>
-          <input
-            type="text"
-            className={styles.diseaseInput}
-            placeholder="Disease name"
-            ref={diseaseRef}
-          />
-          <button className={styles.uploadButton}>Submit</button>
-        </form>
+        {!status && (
+          <form className={styles.formContainer} onSubmit={handleSubmit}>
+            <input
+              type="text"
+              className={styles.diseaseInput}
+              placeholder="Patient name"
+              ref={nameRef}
+            />
+            <input type="file" id="file-btn" onChange={showFile} hidden />
+            <label htmlFor="file-btn" className={styles.fileUploadLabel}>
+              <div className={styles.fileUploadContainer}>
+                <img
+                  src={UploadImage}
+                  className={styles.fileUploadImage}
+                  alt=""
+                />
+                <p className={styles.fileUploadText} ref={textRef}>
+                  Upload DNA sequence here ...
+                </p>
+                <p className={styles.fileUploadInfo} ref={infoRef}>
+                  You have not yet uploaded a DNA sequence!
+                </p>
+              </div>
+            </label>
+            <input
+              type="text"
+              className={styles.diseaseInput}
+              placeholder="Disease name"
+              ref={diseaseRef}
+            />
+            <button className={styles.uploadButton}>Submit</button>
+          </form>
+        )}
         <div className={styles.resultContainer}>
           <h2 className={styles.subheading}>
             Test result will be shown below.
@@ -122,23 +150,25 @@ const DnaTest = () => {
               <h3 className={styles.resultHeading}>Test result</h3>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Date</p>
-                <p className={styles.resultInfo}>{data.date}</p>
+                <p className={styles.resultInfo}>{date}</p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Patient</p>
-                <p className={styles.resultInfo}>{data.name}</p>
+                <p className={styles.resultInfo}>{data.User}</p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Disease</p>
-                <p className={styles.resultInfo}>{data.disease}</p>
+                <p className={styles.resultInfo}>{data.Disease}</p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Similarity</p>
-                <p className={styles.resultInfo}>{data.similarity}</p>
+                <p className={styles.resultInfo}>{data.Similarity}</p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Result</p>
-                <p className={styles.resultInfo}>{data.result}</p>
+                <p className={styles.resultInfo}>
+                  {data.PredictionStatus === true ? "True" : "False"}
+                </p>
               </div>
             </div>
           )}

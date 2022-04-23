@@ -19,7 +19,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: `http://localhost:8080`, // UBAH INI DENGAN REACT APP
+    origin: "*", // UBAH INI DENGAN REACT APP
   })
 );
 

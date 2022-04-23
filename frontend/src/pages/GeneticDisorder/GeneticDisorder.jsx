@@ -24,7 +24,7 @@ const GeneticDisorder = () => {
     const reader = new FileReader();
     reader.onload = async (e) => {
       setText(e.target.result.trim());
-      if (!dnaMatching(text)) {
+      if (dnaMatching(text)) {
         setValid(true);
       } else setValid(false);
     };
@@ -40,6 +40,7 @@ const GeneticDisorder = () => {
       window.alert(
         `Please input correct DNA sequence in the'${diseaseRef.current.value}'!`
       );
+      return;
     } else {
       let body = {
         Name: diseaseRef.current.value,
@@ -47,10 +48,18 @@ const GeneticDisorder = () => {
       };
       axios({
         method: "post",
-        url: URL + "",
+        url: URL,
         data: body,
-      });
-      setStatus(true);
+      })
+        .then((res) => {
+          setStatus(true);
+          console.log(res.data);
+        })
+        .catch((err) => {
+          //TODO ini ntar tampilin error message ke fe
+          setStatus(false);
+          console.log(err);
+        });
     }
   };
 
