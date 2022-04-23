@@ -1,8 +1,13 @@
 const buildLast = (pattern) => {
-	const last = new Array(128).fill(-1) // ASCII with 128 chars
+	const last = {
+		"A": -1,
+		"C": -1,
+		"G": -1,
+		"T": -1
+	}
 
 	for (let i = 0; i < pattern.length; i++) {
-		last[pattern.charCodeAt(i)] = i
+		last[pattern.charAt(i)] = i
 	}
 
 	return last
@@ -29,7 +34,7 @@ const bm = (text, pattern) => {
 					j--
 				}
 			} else {
-				const lo = last[text.charCodeAt(i)]
+				const lo = last[text.charAt(i)]
 				i += m - Math.min(j, 1 + lo)
 				j = m - 1
 			}
@@ -40,5 +45,6 @@ const bm = (text, pattern) => {
 }
 
 module.exports = (text, pattern) => {
+	console.log(bm(text, pattern))
 	return bm(text, pattern) !== -1
 }
