@@ -7,7 +7,7 @@ const Prediction = db.predictions
 
 // FUNCTION
 exports.create = (req, res) => {
-    const {UserName, DiseaseName} = req.body
+    const { UserName, DiseaseName } = req.body
 
     if (UserName && DiseaseName) {
         const prediction = {

@@ -3,17 +3,18 @@ const Sequelize = require("sequelize")
 
 module.exports = (sequelize) => {
     const Prediction = sequelize.define("Prediction", {
+        Id : {
+            type: Sequelize.INTEGER.UNSIGNED,
+            autoIncrement: true,
+            primaryKey: true
+        },
         UserName: {
             type: Sequelize.STRING,
-            primaryKey: true,
-            references: {
-                model: "Users",
-                key: "Name"
-            }
+            allowNull: false
         },
         DiseaseName: {
             type: Sequelize.STRING,
-            primaryKey: true,
+            allowNull: false,
             references: {
                 model: "Diseases",
                 key: "Name"

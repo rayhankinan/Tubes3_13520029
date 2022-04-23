@@ -8,7 +8,6 @@ const bodyParser = require("body-parser");
 
 // SETUP DATABASE
 const db = require("./models");
-const userRoutes = require("./routes/user.routes.js");
 const diseaseRoutes = require("./routes/disease.routes.js");
 const predictionRoutes = require("./routes/prediction.routes.js");
 
@@ -38,7 +37,6 @@ db.sequelize.sync({ force: true }).then(() => {
 });
 
 // ADD ROUTES
-userRoutes(app);
 diseaseRoutes(app);
 predictionRoutes(app);
 

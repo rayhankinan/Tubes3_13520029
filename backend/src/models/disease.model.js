@@ -3,9 +3,14 @@ const Sequelize = require("sequelize")
 
 module.exports = (sequelize) => {
     const Disease = sequelize.define("Disease", {
+        Id : {
+            type: Sequelize.INTEGER.UNSIGNED,
+            autoIncrement: true,
+            primaryKey: true
+        },
         Name: {
             type: Sequelize.STRING,
-            primaryKey: true
+            unique: true
         },
         DNASequence: {
             type: Sequelize.TEXT("long"),
