@@ -45,6 +45,5 @@ const bm = (text, pattern) => {
 }
 
 module.exports = (text, pattern) => {
-	console.log(bm(text, pattern))
 	return bm(text, pattern) !== -1
 }

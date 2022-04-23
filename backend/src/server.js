@@ -17,11 +17,11 @@ const PORT = process.env.PORT || 3000;
 // SETUP APPLICATION
 const app = express();
 
-// app.use(
-//   cors({
-//     origin: `http://localhost:8080`, // UBAH INI DENGAN REACT APP
-//   })
-// );
+app.use(
+  cors({
+    origin: "*", // UBAH INI DENGAN REACT APP
+  })
+);
 
 app.use(bodyParser.json());
 
