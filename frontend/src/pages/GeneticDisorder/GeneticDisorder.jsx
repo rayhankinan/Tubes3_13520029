@@ -7,7 +7,7 @@ const GeneticDisorder = () => {
     <div className={styles.root}>
       <div className={styles.container}>
         <div className={styles.logoContainer}>
-          <p className={styles.logo}>DNAobama</p>
+          <Link to="/" className={styles.logo}>DNAobama</Link>
         </div>
         <div className={styles.headerContainer}>
           <h1 className={styles.heading}>
