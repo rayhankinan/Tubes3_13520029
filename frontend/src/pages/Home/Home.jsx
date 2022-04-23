@@ -9,9 +9,7 @@ const Home = () => {
     <div className={styles.root}>
       <div className={styles.container}>
         <div className={styles.logoContainer}>
-          <Link to="/" className={styles.logo}>
-            DNAobama
-          </Link>
+          <Link to="/" className={styles.logo}>DNAobama</Link>
         </div>
         <div className={styles.headerContainer}>
           <h1 className={styles.header}>
@@ -39,11 +37,9 @@ const Home = () => {
                 </p>
               </div>
               <div className={styles.cardBtnContainer}>
-                <button className={styles.cardButton}>
-                  <Link className={styles.cardLink} to="/add-disorder">
+                <Link to="/add-disorder" className={styles.cardButton}>
                     Go!
-                  </Link>
-                </button>
+                </Link>
               </div>
             </div>
             <div className={styles.blueCard}>
@@ -54,11 +50,9 @@ const Home = () => {
                 </p>
               </div>
               <div className={styles.cardBtnContainer}>
-                <button className={styles.cardButton}>
-                  <Link className={styles.cardLink} to="/dna-test">
-                    Go!
-                  </Link>
-                </button>
+                <Link to="/dna-test" className={styles.cardButton}>
+                  Go!
+                </Link>
               </div>
             </div>
             <div className={styles.purpleCard}>
@@ -70,11 +64,9 @@ const Home = () => {
                 </p>
               </div>
               <div className={styles.cardBtnContainer}>
-                <button className={styles.cardButton}>
-                  <Link className={styles.cardLink} to="/search">
+                <Link to="/search" className={styles.cardButton}>
                     Go!
-                  </Link>
-                </button>
+                </Link>
               </div>
             </div>
           </div>

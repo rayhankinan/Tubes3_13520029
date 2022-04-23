@@ -1,0 +1,190 @@
+.root {
+  background: var(--primary);
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1440px;
+  padding: 30px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--milk);
+}
+
+.headerContainer {
+  margin-top: 9px;
+}
+
+.heading {
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--white);
+}
+
+.subheading {
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--white2);
+  margin-top: 15px;
+}
+
+.formContainer {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.diseaseInput {
+  padding: 12px 32px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  color: var(--white2);
+  background: none;
+  outline: none;
+  width: 100%;
+}
+
+.fileUploadLabel {
+  width: 100%;
+}
+
+.fileUploadContainer {
+  border: 4px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 30px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fileUploadContainer:hover {
+  cursor: pointer;
+}
+
+.fileUploadImage {
+  display: block;
+}
+
+.fileUploadText {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--white);
+  text-align: center;
+}
+
+.fileUploadInfo {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--white2);
+  text-align: center;
+  margin-top: 9px;
+}
+
+.uploadButton {
+  padding: 12px 32px;
+  color: var(--white);
+  background: var(--btn-primary);
+  border-radius: 12px;
+  transition: all 0.3s linear;
+  border: none;
+  outline: none;
+}
+
+.uploadButton:hover {
+  background: var(--btn-primary-hover);
+  cursor: pointer;
+}
+
+.resultContainer {
+  margin-top: 15px;
+}
+
+.resultCard {
+  margin-top: 15px;
+  background: #373951;
+  box-shadow: 0px 100px 126px rgba(0, 0, 0, 0.15), 0px 41.7776px 52.6398px rgba(0, 0, 0, 0.107828), 0px 22.3363px 28.1437px rgba(0, 0, 0, 0.0894161), 0px 12.5216px 15.7772px rgba(0, 0, 0, 0.075), 0px 6.6501px 8.37913px rgba(0, 0, 0, 0.0605839), 0px 2.76726px 3.48674px rgba(0, 0, 0, 0.0421718);
+  border-radius: 24px;
+  padding: 30px;
+}
+
+.testInfo {
+  color: var(--peach);
+  margin-top: 9px;
+  font-size: 14px;
+}
+
+.resultHeading {
+  color: var(--white2);
+  font-weight: 700;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.resultFlex {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 9px;
+}
+
+.resultFlex p {
+  color: var(--white2);
+  font-size: 14px;
+}
+
+.resultInfoL {
+  width: 75px;
+}
+
+@media (min-width: 992px) {
+  .container {
+    padding: 60px;
+  }
+  
+  .logo {
+    font-size: 36px;
+  }
+
+  .headerContainer {
+    margin-top: 60px;
+  }
+
+  .heading {
+    font-size: 48px;
+  }
+
+  .subheading {
+    font-size: 32px;
+    margin-top: 30px;
+    max-width: 598px;
+  }
+
+  .formContainer {
+    margin-top: 60px;
+    max-width: 700px;
+    gap: 30px;
+  }
+
+  .diseaseInput {
+    font-size: 16px;
+  }
+
+  .fileUploadText, .fileUploadInfo {
+    font-size: 16px;
+  }
+
+  .uploadButton {
+    font-size: 16px;
+  }
+
+  .resultCard {
+    max-width: 700px;
+  }
+}
