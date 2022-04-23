@@ -9,7 +9,9 @@ const Home = () => {
     <div className={styles.root}>
       <div className={styles.container}>
         <div className={styles.logoContainer}>
-          <Link to="/" className={styles.logo}>DNAobama</Link>
+          <Link to="/" className={styles.logo}>
+            DNAobama
+          </Link>
         </div>
         <div className={styles.headerContainer}>
           <h1 className={styles.header}>
@@ -38,7 +40,7 @@ const Home = () => {
               </div>
               <div className={styles.cardBtnContainer}>
                 <Link to="/add-disorder" className={styles.cardButton}>
-                    Go!
+                  Go!
                 </Link>
               </div>
             </div>
@@ -65,7 +67,7 @@ const Home = () => {
               </div>
               <div className={styles.cardBtnContainer}>
                 <Link to="/search" className={styles.cardButton}>
-                    Go!
+                  Go!
                 </Link>
               </div>
             </div>
@@ -74,6 +76,6 @@ const Home = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Home;
