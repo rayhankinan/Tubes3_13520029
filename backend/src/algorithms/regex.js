@@ -1,9 +1,9 @@
-const dnaMatching = (input) => {
+exports.dnaMatching = (input) => {
   const sanitizedInput = new RegExp(/([^ACGT]+|[a-z]+|\s+)/, "g");
   return !sanitizedInput.test(input);
 };
 
-const inputMatching = (input) => {
+exports.inputMatching = (input) => {
   // all date ?
   const allRegex = new RegExp(
     /^([12][0-9]|3[01]|0?[1-9])([-/\s])(1[0-2]|(januari|februari|maret|april|mei|juni|juli|agustus|september|oktober|november|desember)|0?[1-9])(\2\d{4})(\s([A-Za-z]+[-]?)+[0-9]{0,2})$/,
@@ -34,7 +34,7 @@ const inputMatching = (input) => {
   }
 };
 
-const parsingDate = (dateInput) => {
+exports.parsingDate = (dateInput) => {
   const MONTH = {
     januari: 1,
     februari: 2,
