@@ -33,7 +33,7 @@ const kmp = (text, pattern) => {
     while (i < n) {
         if (pattern.charAt(j) === text.charAt(i)) {
             if (j === m - 1) {
-                return i - m + 1;
+                return i - m + 1
             } else {
                 i++
                 j++
