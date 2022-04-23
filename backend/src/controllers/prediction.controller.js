@@ -5,7 +5,7 @@ const Sequelize = require("sequelize")
 const db = require("../models")
 const bm = require("../algorithms/bm.algorithm.js")
 const kmp = require("../algorithms/kmp.algorithm.js")
-const levenshtein = require("../algorithms/levenshtein.algorithm.js")
+const lcs = require("../algorithms/lcs.algorithm.js")
 const Prediction = db.predictions
 
 // FUNCTION
@@ -20,7 +20,7 @@ exports.create = (req, res) => {
         })
         .then((data) => {
             if (data) {
-                const Similarity = IsKMP ? (kmp(DNASequence, data.DNASequence) ? 1 : levenshtein(DNASequence, data.DNASequence)) : (bm(DNASequence, data.DNASequence) ? 1 : levenshtein(DNASequence, data.DNASequence))
+                const Similarity = IsKMP ? (kmp(DNASequence, data.DNASequence) ? 1 : lcs(DNASequence, data.DNASequence)) : (bm(DNASequence, data.DNASequence) ? 1 : lcs(DNASequence, data.DNASequence))
                 const PredictionStatus = Similarity >= 0.8
 
                 const prediction = {
@@ -32,9 +32,7 @@ exports.create = (req, res) => {
 
                 Prediction.create(prediction)
                 .then((data) => {
-                    res.status(201).send({
-                        message: "Created"
-                    })
+                    res.status(201).send(data)
                 })
                 .catch((error) => {
                     res.status(500).send({

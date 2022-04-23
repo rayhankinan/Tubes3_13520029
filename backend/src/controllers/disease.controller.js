@@ -17,9 +17,7 @@ exports.create = (req, res) => {
 
     Disease.create(disease)
       .then((data) => {
-        res.status(201).send({
-          message: "Created",
-        });
+        res.status(201).send(data);
       })
       .catch((error) => {
         res.status(500).send({
