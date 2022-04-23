@@ -8,11 +8,11 @@ module.exports = (sequelize) => {
             autoIncrement: true,
             primaryKey: true
         },
-        UserName: {
+        User: {
             type: Sequelize.STRING,
             allowNull: false
         },
-        DiseaseName: {
+        Disease: {
             type: Sequelize.STRING,
             allowNull: false,
             references: {
@@ -21,8 +21,8 @@ module.exports = (sequelize) => {
             }
         },
         PredictionDate: {
-            type: Sequelize.DATE,
-            default: Sequelize.NOW,
+            type: Sequelize.DATEONLY,
+            defaultValue: Sequelize.NOW,
             allowNull: false
         },
         Similarity: {

@@ -1,5 +1,5 @@
 // use memoization (dp) because use same computation for subprolem
-module.exports = (text, target) => {
+const levenshtein = (text, target) => {
     const n = text.length;
     const m = target.length;
     const dp = new Array(n + 1);
@@ -31,4 +31,8 @@ module.exports = (text, target) => {
     }
 
     return dp[n][m]
+}
+
+module.exports = (text, target) => {
+    return (target.length - levenshtein(text, target)) / target.length
 }

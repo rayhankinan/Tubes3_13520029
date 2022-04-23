@@ -35,9 +35,9 @@ exports.create = (req, res) => {
 }
 
 exports.findOne = (req, res) => {
-    const { Name } = req.params
+    const { Id } = req.params
 
-    Disease.findByPk(Name)
+    Disease.findByPk(Id)
     .then((data) => {
         if (data) {
             res.status(200).send(data)
@@ -72,10 +72,10 @@ exports.findAll = (req, res) => {
 }
 
 exports.update = (req, res) => {
-    const { Name } = req.params
+    const { Id } = req.params
 
     Disease.update(req.body, {
-        where: { Name: Name }
+        where: { Id: Id }
     })
     .then((nums) => {
         if (nums) {
@@ -96,10 +96,10 @@ exports.update = (req, res) => {
 }
 
 exports.delete = (req, res) => {
-    const { Name } = req.params
+    const { Id } = req.params
 
     Disease.destroy({
-        where: { Name: Name }
+        where: { Id: Id }
     })
     .then((nums) => {
         if (nums) {

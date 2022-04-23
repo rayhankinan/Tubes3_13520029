@@ -8,10 +8,10 @@ module.exports = (app) => {
     const router = express.Router()
 
     router.post("/", diseases.create)
-    router.get("/:Name", diseases.findOne)
+    router.get("/:Id", diseases.findOne)
     router.get("/", diseases.findAll)
-    router.put("/:Name", diseases.update)
-    router.delete("/:Name", diseases.delete)
+    router.put("/:Id", diseases.update)
+    router.delete("/:Id", diseases.delete)
     router.delete("/", diseases.deleteAll)
 
     app.use("/api/diseases", router)

@@ -26,6 +26,7 @@ db.diseases = disease(sequelize)
 db.predictions = prediction(sequelize)
 
 db.diseases.hasMany(db.predictions, {
+    foreignKey: "Disease",
     onDelete: "CASCADE",
     onUpdate: "CASCADE"
 })

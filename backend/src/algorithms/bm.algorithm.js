@@ -8,7 +8,7 @@ const buildLast = (pattern) => {
 	return last
 }
 
-module.exports = (text, pattern) => {
+const bm = (text, pattern) => {
 	const n = text.length
 	const m = pattern.length
 	const last = buildLast(pattern)
@@ -35,4 +35,8 @@ module.exports = (text, pattern) => {
 			}
 		} while (i <= n - 1)
 	}
+}
+
+module.exports = (text, pattern) => {
+	return bm(text, pattern) !== -1
 }

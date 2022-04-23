@@ -22,7 +22,7 @@ const computeFail = (pattern) => {
     return fail
 }
 
-module.exports = (text, pattern) => {
+const kmp = (text, pattern) => {
     const n = text.length
     const m = pattern.length
     const fail = computeFail(pattern)
@@ -46,4 +46,8 @@ module.exports = (text, pattern) => {
     }
 
     return -1
+}
+
+module.exports = (text, pattern) => {
+    return kmp(text, pattern) !== -1;
 }
