@@ -6,9 +6,12 @@ import { useRef, useState } from "react";
 const DnaTest = () => {
   const textRef = useRef(null);
   const infoRef = useRef(null);
+  const nameRef = useRef(null);
+  const diseaseRef = useRef(null);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-
+  const [data, setData] = useState({});
+  
   const dummyData = {
     date: "14 April 2022",
     name: "Marchotridyo",
@@ -25,6 +28,33 @@ const DnaTest = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitted(true);
+    /* Fetch data from backend */
+    let similarity = "30%";
+    let result = "False";
+    const months = [
+      'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember'
+    ];
+    let currentDate = new Date();
+    setData(oldData => {
+      return {
+        date: `${currentDate.getDate()} ${months[currentDate.getMonth()]} ${currentDate.getFullYear()}`,
+        name: nameRef.current.value,
+        disease: diseaseRef.current.value,
+        similarity: similarity,
+        result: result
+      };
+    });
   }
 
   return (
@@ -46,6 +76,7 @@ const DnaTest = () => {
             type="text"
             className={styles.diseaseInput}
             placeholder="Patient name"
+            ref={nameRef}
           />
           <input
             type="file"
@@ -72,6 +103,7 @@ const DnaTest = () => {
             type="text"
             className={styles.diseaseInput}
             placeholder="Disease name"
+            ref={diseaseRef}
           />
           <button className={styles.uploadButton}>Submit</button>
         </form>
@@ -84,23 +116,23 @@ const DnaTest = () => {
               <h3 className={styles.resultHeading}>Test result</h3>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Date</p>
-                <p className={styles.resultInfo}>{dummyData.date}</p>
+                <p className={styles.resultInfo}>{data.date}</p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Patient</p>
-                <p className={styles.resultInfo}>{dummyData.name}</p>
+                <p className={styles.resultInfo}>{data.name}</p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Disease</p>
-                <p className={styles.resultInfo}>{dummyData.disease}</p>
+                <p className={styles.resultInfo}>{data.disease}</p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Similarity</p>
-                <p className={styles.resultInfo}>{dummyData.similarity}</p>
+                <p className={styles.resultInfo}>{data.similarity}</p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Result</p>
-                <p className={styles.resultInfo}>{dummyData.result}</p>
+                <p className={styles.resultInfo}>{data.result}</p>
               </div>
             </div>
           )}
