@@ -20,9 +20,10 @@
   --grape-lighter: #a19afe;
   --grape-darker: #5218ff;
   --white: #ffffff;
+  --white2: rgba(255, 255, 255, 0.8);
   --black: #222222;
   --black2: rgba(0, 0, 0, 0.5);
-  
+
   /* button  */
   --btn-primary: linear-gradient(180deg, #5561ff 0%, #3643fc 100%);
   --btn-primary-hover: linear-gradient(180deg, #6b75ff 0%, #535fff 100%);
