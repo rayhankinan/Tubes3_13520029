@@ -1,8 +1,17 @@
 import styles from "./GeneticDisorder.module.css";
 import { Link } from "react-router-dom";
 import UploadImage from "../../assets/images/upload.png"
+import { useRef } from "react";
 
 const GeneticDisorder = () => {
+  const textRef = useRef(null);
+  const infoRef = useRef(null);
+
+  const handleInputChange = (e) => {
+    textRef.current.textContent = "File has been uploaded!";
+    infoRef.current.textContent = `${e.target.files[0].name}`
+  }
+
   return (
     <div className={styles.root}>
       <div className={styles.container}>
@@ -19,12 +28,12 @@ const GeneticDisorder = () => {
         </div>
         <form className={styles.formContainer}>
           <input type="text" className={styles.diseaseInput} placeholder="Disease name"/>
-          <input type="file" id="file-btn" hidden/>
+          <input type="file" id="file-btn" onChange={handleInputChange}hidden/>
           <label htmlFor="file-btn" className={styles.fileUploadLabel}>
             <div className={styles.fileUploadContainer}>
               <img src={UploadImage} className={styles.fileUploadImage} alt="" />
-              <p className={styles.fileUploadText}>Upload DNA sequence here ...</p>
-              <p className={styles.fileUploadInfo}>You have not yet uploaded a DNA sequence!</p>
+              <p className={styles.fileUploadText} ref={textRef}>Upload DNA sequence here ...</p>
+              <p className={styles.fileUploadInfo} ref={infoRef}>You have not yet uploaded a DNA sequence!</p>
             </div>
           </label>
           <button className={styles.uploadButton}>Submit</button>
