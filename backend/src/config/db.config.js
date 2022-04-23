@@ -24,5 +24,3 @@ const config = {
     idle: 10000,
   },
 };
-
-export { config };
