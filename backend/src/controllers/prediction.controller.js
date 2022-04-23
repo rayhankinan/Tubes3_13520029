@@ -12,7 +12,7 @@ const Prediction = db.predictions
 exports.create = (req, res) => {
     const { User, Disease, DNASequence, IsKMP } = req.body
 
-    if (User && Disease && DNASequence && IsKMP) {
+    if (User && Disease && DNASequence) {
         const DiseaseDB = db.diseases
 
         DiseaseDB.findOne({

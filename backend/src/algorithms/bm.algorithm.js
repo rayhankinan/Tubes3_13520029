@@ -34,6 +34,8 @@ const bm = (text, pattern) => {
 				j = m - 1
 			}
 		} while (i <= n - 1)
+
+		return -1
 	}
 }
 
