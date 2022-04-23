@@ -7,7 +7,7 @@ const Prediction = db.predictions
 
 // FUNCTION
 exports.create = (req, res) => {
-
+    
 }
 
 exports.findOne = (req, res) => {
