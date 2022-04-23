@@ -187,4 +187,8 @@
   .resultCard {
     max-width: 700px;
   }
+
+  .testInfo {
+    font-size: 16px;
+  }
 }
