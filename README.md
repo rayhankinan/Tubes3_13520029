@@ -3,3 +3,7 @@ Tugas Besar 3 IF2211 Strategi Algoritma Semester II Tahun 2021/2022 Penerapan St
 
 # Obama Masuk Islam
 ![image](https://user-images.githubusercontent.com/29671825/159226962-16f234bf-09a4-4d60-8b6d-7c8bb453d0fa.png)
+
+# Obama Murtad???
+![image](https://user-images.githubusercontent.com/29671825/164894351-06b0684d-1f66-48e2-af97-947919d4b05f.png)
+

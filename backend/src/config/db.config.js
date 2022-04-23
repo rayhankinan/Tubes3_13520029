@@ -11,16 +11,19 @@ const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
 const DATABASE_NAME = process.env.DATABASE_NAME;
 const DATABASE_DIALECT = process.env.DATABASE_DIALECT;
 
-const config = {
-  HOST: DATABASE_HOST,
-  USER: DATABASE_USER,
-  PASSWORD: DATABASE_PASSWORD,
-  DB: DATABASE_NAME,
-  dialect: DATABASE_DIALECT,
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000,
-  },
-};
+module.exports = {
+	HOST: DATABASE_HOST,
+	USER: DATABASE_USER,
+	PASSWORD: DATABASE_PASSWORD,
+	DB: DATABASE_NAME,
+	dialect: DATABASE_DIALECT,
+	pool: {
+		max: 5,
+		min: 0,
+		acquire: 30000,
+		idle: 10000,
+	},
+	define: {
+        timestamps: false
+    }
+}
