@@ -127,6 +127,10 @@
     font-size: 36px;
   }
 
+  .container {
+    padding: 60px;
+  }
+
   .headerContainer {
     margin-top: 105px;
     position: relative;
