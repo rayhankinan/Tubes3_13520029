@@ -1,5 +1,3 @@
-const { text } = require("body-parser")
-
 const lcs = (text, pattern) => {
     const n = text.length
     const m = pattern.length
