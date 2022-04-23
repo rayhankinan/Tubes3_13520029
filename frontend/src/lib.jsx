@@ -1,9 +1,9 @@
-exports.dnaMatching = (input) => {
+const dnaMatching = (input) => {
   const sanitizedInput = new RegExp(/([^ACGT]+|[a-z]+|\s+)/, "g");
   return !sanitizedInput.test(input);
 };
 
-inputMatching = (input) => {
+const inputMatching = (input) => {
   // all date ?
   const allRegex = new RegExp(
     /^([12][0-9]|3[01]|0?[1-9])([-/\s])(1[0-2]|(januari|februari|maret|april|mei|juni|juli|agustus|september|oktober|november|desember)|0?[1-9])(\2\d{4})(\s([A-Za-z]+[-]?)+[0-9]{0,2})$/,
@@ -35,7 +35,7 @@ inputMatching = (input) => {
   }
 };
 
-parsingDate = (dateInput) => {
+const parsingDate = (dateInput) => {
   const MONTH = {
     januari: 1,
     februari: 2,
@@ -70,9 +70,5 @@ parsingDate = (dateInput) => {
   return date;
 };
 
-// let temp = [4, 5, 6];
-// console.log(inputMatching("26-01-1234"));
-console.log(inputMatching("01-01-2002 covid-19"));
-// console.log(parsingDate(["26", "FebRuaRi", "2002"]));
-// console.log(parsingDate(["26/januari/2002"]));
-// console.log(parsingDate(["26-januari-2002"]));
+
+export { dnaMatching, inputMatching, parsingDate };

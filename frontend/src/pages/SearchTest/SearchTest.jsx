@@ -1,6 +1,7 @@
 import styles from "./SearchTest.module.css";
 import { Link } from "react-router-dom";
-import { useState, useRef } from "react"
+import { useState, useRef } from "react";
+import { dnaMatching, inputMatching, parsingDate } from "../../lib";
 
 const SearchTest = () => {
   const searchRef = useRef(null);
@@ -11,7 +12,7 @@ const SearchTest = () => {
     e.preventDefault();
     /* Catatan: akses text yang ada di input search di variabel searchValue! */
     const searchValue = searchRef.current.value;
-    setDummyResults(oldDummyResults => {
+    setDummyResults((oldDummyResults) => {
       return [
         {
           date: "14 April 2022",
@@ -42,8 +43,8 @@ const SearchTest = () => {
           result: "False",
         },
       ];
-    })
-  }
+    });
+  };
 
   return (
     <div className={styles.root}>

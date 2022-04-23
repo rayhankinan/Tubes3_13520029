@@ -1,5 +1,3 @@
-import { useState } from "react";
-import logo from "./logo.svg";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { DnaTest, GeneticDisorder, Home, SearchTest } from "./pages";
 
