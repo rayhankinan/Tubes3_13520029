@@ -9,35 +9,38 @@ const GeneticDisorder = () => {
   const textRef = useRef(null);
   const infoRef = useRef(null);
   const diseaseRef = useRef(null);
-  const [valid, setValid] = useState(true);
+  const [valid, setValid] = useState(false);
   const [text, setText] = useState("");
   const [status, setStatus] = useState(false);
+  const [file, setFile] = useState(false);
 
   const URL = "http://localhost:3000/api/diseases";
 
   const showFile = async (e) => {
     e.preventDefault();
+    setFile(true);
     textRef.current.textContent = "File has been uploaded!";
     infoRef.current.textContent = `${e.target.files[0].name}`;
     const reader = new FileReader();
     reader.onload = async (e) => {
       setText(e.target.result.trim());
-      console.log(text);
-      if (!dnaMatching(text)) setValid(false);
-      else setValid(true);
+      if (!dnaMatching(text)) {
+        setValid(true);
+      } else setValid(false);
     };
     reader.readAsText(e.target.files[0]);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!valid) {
+    if (!file) {
+      window.alert(`Please upload file first!`);
+      return;
+    } else if (!valid) {
       window.alert(
         `Please input correct DNA sequence in the'${diseaseRef.current.value}'!`
       );
-      return;
     } else {
-      // const body = new FormData();
       let body = {
         Name: diseaseRef.current.value,
         DNASequence: text,
@@ -68,7 +71,7 @@ const GeneticDisorder = () => {
         </div>
         {status ? (
           <>
-            <h2 className={[styles.subheading, styles.mintText]}>
+            <h2 className={styles.mintText}>
               Succesfully adding disease to database
             </h2>
             <h2 className={styles.subheading}>

@@ -70,5 +70,4 @@ const parsingDate = (dateInput) => {
   return date;
 };
 
-
 export { dnaMatching, inputMatching, parsingDate };
