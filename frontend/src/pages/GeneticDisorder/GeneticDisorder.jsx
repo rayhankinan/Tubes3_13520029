@@ -6,10 +6,15 @@ import { useRef } from "react";
 const GeneticDisorder = () => {
   const textRef = useRef(null);
   const infoRef = useRef(null);
+  const diseaseRef = useRef(null);
 
   const handleInputChange = (e) => {
     textRef.current.textContent = "File has been uploaded!";
     infoRef.current.textContent = `${e.target.files[0].name}`
+  }
+
+  const handleSubmit = (e) => {
+    window.alert(`Successfully added the disease '${diseaseRef.current.value}' to the database!`);
   }
 
   return (
@@ -26,8 +31,8 @@ const GeneticDisorder = () => {
             Add a new genetic disorder to the database alongside it's DNA sequence.
           </h2>
         </div>
-        <form className={styles.formContainer}>
-          <input type="text" className={styles.diseaseInput} placeholder="Disease name"/>
+        <form className={styles.formContainer} onSubmit={handleSubmit}>
+          <input type="text" className={styles.diseaseInput} placeholder="Disease name" ref={diseaseRef}/>
           <input type="file" id="file-btn" onChange={handleInputChange}hidden/>
           <label htmlFor="file-btn" className={styles.fileUploadLabel}>
             <div className={styles.fileUploadContainer}>
