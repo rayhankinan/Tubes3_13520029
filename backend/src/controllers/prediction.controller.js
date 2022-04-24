@@ -6,6 +6,7 @@ const db = require("../models")
 const bm = require("../algorithms/bm.algorithm.js")
 const kmp = require("../algorithms/kmp.algorithm.js")
 const lcs = require("../algorithms/lcs.algorithm.js")
+const lcss = require("../algorithms/lcss.algorithm.js")
 const Prediction = db.predictions
 
 // FUNCTION
