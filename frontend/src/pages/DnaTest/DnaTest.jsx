@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
-import { useRef, useState } from "react";
-import { dnaMatching, inputMatching, parsingDate } from "../../lib";
-import UploadImage from "../../assets/images/upload.png";
 import styles from "./DnaTest.module.css";
+import { Link } from "react-router-dom";
+import UploadImage from "../../assets/images/upload.png";
+import { useRef, useState } from "react";
 import axios from "axios";
+import { server } from "../server"
 
 const DnaTest = () => {
   const textRef = useRef(null);
@@ -12,87 +12,27 @@ const DnaTest = () => {
   const diseaseRef = useRef(null);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [status, setStatus] = useState(false);
   const [data, setData] = useState({});
-  const [date, setDate] = useState("");
-  const [text, setText] = useState("");
-  const [valid, setValid] = useState(true);
-  const [file, setFile] = useState(false);
-  const URL = "http://localhost:3000/api/predictions/";
+  const [sequence, setSequence] = useState('');
 
-  const dummyData = {
-    PredictionDate: "14 April 2022",
-    User: "Marchotridyo",
-    Disease: "HIV",
-    Similarity: "30%",
-    PredictionStatus: "False",
-  };
-
-  const showFile = async (e) => {
-    e.preventDefault();
-    setFile(true);
+  const handleInputChange = async (e) => {
     textRef.current.textContent = "File has been uploaded!";
     infoRef.current.textContent = `${e.target.files[0].name}`;
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      setText(e.target.result.trim());
-      if (dnaMatching(text)) {
-        setValid(true);
-      } else setValid(false);
-    };
-    reader.readAsText(e.target.files[0]);
+    const text = await e.target.files[0].text();
+    setSequence(text);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!file) {
-      window.alert(`Please upload file first!`);
-      return;
-    } else if (!valid) {
-      window.alert(
-        `Please input correct DNA sequence in the'${diseaseRef.current.value}'!`
-      );
-      return;
-    } else {
-      let body = {
-        User: nameRef.current.value,
-        Disease: diseaseRef.current.value,
-        DNASequence: text,
-        IsKMP: true,
-      };
-      axios({
-        method: "post",
-        url: URL,
-        data: body,
-      })
-        .then((res) => {
-          setStatus(true);
-          setData(res.data);
-          const date2 = new Date(res.data.PredictionDate);
-          setDate(date2.toLocaleDateString());
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
     setIsSubmitted(true);
-    let similarity = "30%";
-    let result = "False";
-    const months = [
-      "Januari",
-      "Februari",
-      "Maret",
-      "April",
-      "Mei",
-      "Juni",
-      "Juli",
-      "Agustus",
-      "September",
-      "Oktober",
-      "November",
-      "Desember",
-    ];
-  };
+    /* Fetch data from backend */
+    let { data } = await axios.post(`${server}/test`, {
+      patient: nameRef.current.value,
+      sequence: sequence,
+      disease: diseaseRef.current.value
+    });
+    setData(data);
+  }
 
   return (
     <div className={styles.root}>
@@ -108,39 +48,42 @@ const DnaTest = () => {
             Check if a certain patient has a certain genetic disease.
           </h2>
         </div>
-        {!status && (
-          <form className={styles.formContainer} onSubmit={handleSubmit}>
-            <input
-              type="text"
-              className={styles.diseaseInput}
-              placeholder="Patient name"
-              ref={nameRef}
-            />
-            <input type="file" id="file-btn" onChange={showFile} hidden />
-            <label htmlFor="file-btn" className={styles.fileUploadLabel}>
-              <div className={styles.fileUploadContainer}>
-                <img
-                  src={UploadImage}
-                  className={styles.fileUploadImage}
-                  alt=""
-                />
-                <p className={styles.fileUploadText} ref={textRef}>
-                  Upload DNA sequence here ...
-                </p>
-                <p className={styles.fileUploadInfo} ref={infoRef}>
-                  You have not yet uploaded a DNA sequence!
-                </p>
-              </div>
-            </label>
-            <input
-              type="text"
-              className={styles.diseaseInput}
-              placeholder="Disease name"
-              ref={diseaseRef}
-            />
-            <button className={styles.uploadButton}>Submit</button>
-          </form>
-        )}
+        <form className={styles.formContainer} onSubmit={handleSubmit}>
+          <input
+            type="text"
+            className={styles.diseaseInput}
+            placeholder="Patient name"
+            ref={nameRef}
+          />
+          <input
+            type="file"
+            id="file-btn"
+            onChange={handleInputChange}
+            hidden
+          />
+          <label htmlFor="file-btn" className={styles.fileUploadLabel}>
+            <div className={styles.fileUploadContainer}>
+              <img
+                src={UploadImage}
+                className={styles.fileUploadImage}
+                alt=""
+              />
+              <p className={styles.fileUploadText} ref={textRef}>
+                Upload DNA sequence here ...
+              </p>
+              <p className={styles.fileUploadInfo} ref={infoRef}>
+                You have not yet uploaded a DNA sequence!
+              </p>
+            </div>
+          </label>
+          <input
+            type="text"
+            className={styles.diseaseInput}
+            placeholder="Disease name"
+            ref={diseaseRef}
+          />
+          <button className={styles.uploadButton}>Submit</button>
+        </form>
         <div className={styles.resultContainer}>
           <h2 className={styles.subheading}>
             Test result will be shown below.
@@ -150,25 +93,23 @@ const DnaTest = () => {
               <h3 className={styles.resultHeading}>Test result</h3>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Date</p>
-                <p className={styles.resultInfo}>{date}</p>
+                <p className={styles.resultInfo}>{data.date}</p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Patient</p>
-                <p className={styles.resultInfo}>{data.User}</p>
+                <p className={styles.resultInfo}>{data.patient}</p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Disease</p>
-                <p className={styles.resultInfo}>{data.Disease}</p>
+                <p className={styles.resultInfo}>{data.disease}</p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Similarity</p>
-                <p className={styles.resultInfo}>{data.Similarity}</p>
+                <p className={styles.resultInfo}>{data.similarity}</p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Result</p>
-                <p className={styles.resultInfo}>
-                  {data.PredictionStatus === true ? "True" : "False"}
-                </p>
+                <p className={styles.resultInfo}>{data.result}</p>
               </div>
             </div>
           )}

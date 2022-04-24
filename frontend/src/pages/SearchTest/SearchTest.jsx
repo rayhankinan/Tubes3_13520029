@@ -1,50 +1,23 @@
 import styles from "./SearchTest.module.css";
 import { Link } from "react-router-dom";
-import { useState, useRef } from "react";
-import { dnaMatching, inputMatching, parsingDate } from "../../lib";
+import { useState, useRef } from "react"
+import axios from "axios"
+import { server } from "../server"
 
 const SearchTest = () => {
   const searchRef = useRef(null);
 
-  const [dummyResults, setDummyResults] = useState([]);
+  const [results, setResults] = useState([]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     /* Catatan: akses text yang ada di input search di variabel searchValue! */
     const searchValue = searchRef.current.value;
-    setDummyResults((oldDummyResults) => {
-      return [
-        {
-          date: "14 April 2022",
-          name: "Marchotridyo",
-          disease: "HIV",
-          similarity: "30%",
-          result: "False",
-        },
-        {
-          date: "14 April 2022",
-          name: "Marchotridyo",
-          disease: "Down Syndrome",
-          similarity: "20%",
-          result: "False",
-        },
-        {
-          date: "14 April 2022",
-          name: "Marchotridyo",
-          disease: "AIDS",
-          similarity: "15%",
-          result: "False",
-        },
-        {
-          date: "14 April 2022",
-          name: "Marchotridyo",
-          disease: "Syphillis",
-          similarity: "5%",
-          result: "False",
-        },
-      ];
+    let { data } = await axios.post(`${server}/search`, {
+      search: searchValue
     });
-  };
+    setResults(data);
+  }
 
   return (
     <div className={styles.root}>
@@ -74,18 +47,18 @@ const SearchTest = () => {
           <div className={styles.subheading}>
             Search results will be shown below.
           </div>
-          {dummyResults.length == 0 && (
+          {results.length == 0 && (
             <p className={styles.testInfo}>You haven't done a search yet!</p>
           )}
-          {dummyResults.length > 0 && (
+          {results.length > 0 && (
             <div className={styles.results}>
               <p className={styles.resultsInfo}>
-                Found {`${dummyResults.length}`} results!
+                Found {`${results.length}`} results!
               </p>
               <div className={styles.resultsFlexbox}>
-                {dummyResults.map((result, idx) => {
+                {results.map((result, idx) => {
                   return (
-                    <div className={styles.resultCard}>
+                    <div className={styles.resultCard} key={idx}>
                       <h3 className={styles.resultHeading}>
                         Test result #{idx + 1}
                       </h3>
@@ -95,7 +68,7 @@ const SearchTest = () => {
                       </div>
                       <div className={styles.resultFlex}>
                         <p className={styles.resultInfoL}>Patient</p>
-                        <p className={styles.resultInfo}>{result.name}</p>
+                        <p className={styles.resultInfo}>{result.patient}</p>
                       </div>
                       <div className={styles.resultFlex}>
                         <p className={styles.resultInfoL}>Disease</p>
