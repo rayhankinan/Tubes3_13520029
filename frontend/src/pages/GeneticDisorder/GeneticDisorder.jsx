@@ -1,9 +1,12 @@
-import { useRef, useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
+
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { dnaMatching } from "../../lib";
 import styles from "./GeneticDisorder.module.css";
 import UploadImage from "../../assets/images/upload.png";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const GeneticDisorder = () => {
   const textRef = useRef(null);
@@ -11,10 +14,13 @@ const GeneticDisorder = () => {
   const diseaseRef = useRef(null);
   const [valid, setValid] = useState(false);
   const [text, setText] = useState("");
-  const [status, setStatus] = useState(false);
   const [file, setFile] = useState(false);
 
   const URL = "http://localhost:3000/api/diseases";
+
+  useEffect(() => {
+    console.log(text);
+  }, [text]);
 
   const showFile = async (e) => {
     e.preventDefault();
@@ -34,31 +40,29 @@ const GeneticDisorder = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!file) {
-      window.alert(`Please upload file first!`);
+      toast.error("Please upload file first!");
       return;
     } else if (!valid) {
-      window.alert(
-        `Please input correct DNA sequence in the'${diseaseRef.current.value}'!`
-      );
+      toast.error("Please upload correct DNA Sequence");
       return;
     } else {
       let body = {
         Name: diseaseRef.current.value,
         DNASequence: text,
       };
+      console.log(body);
       axios({
         method: "post",
         url: URL,
         data: body,
       })
         .then((res) => {
-          setStatus(true);
           console.log(res.data);
+          toast.success("Upload Success");
         })
         .catch((err) => {
-          //TODO ini ntar tampilin error message ke fe
-          setStatus(false);
           console.log(err);
+          toast.error("Disease name already exists");
         });
     }
   };
@@ -78,48 +82,37 @@ const GeneticDisorder = () => {
             sequence.
           </h2>
         </div>
-        {status ? (
-          <>
-            <h2 className={styles.mintText}>
-              Succesfully adding disease to database
-            </h2>
-            <h2 className={styles.subheading}>
-              Press the title to go back to the dashboard
-            </h2>
-          </>
-        ) : (
-          <form className={styles.formContainer} onSubmit={handleSubmit}>
-            <input
-              type="text"
-              className={styles.diseaseInput}
-              placeholder="Disease name"
-              ref={diseaseRef}
-            />
-            <input
-              type="file"
-              id="file-btn"
-              accept=".txt"
-              onChange={showFile}
-              hidden
-            />
-            <label htmlFor="file-btn" className={styles.fileUploadLabel}>
-              <div className={styles.fileUploadContainer}>
-                <img
-                  src={UploadImage}
-                  className={styles.fileUploadImage}
-                  alt=""
-                />
-                <p className={styles.fileUploadText} ref={textRef}>
-                  Upload DNA sequence here ...
-                </p>
-                <p className={styles.fileUploadInfo} ref={infoRef}>
-                  You have not yet uploaded a DNA sequence!
-                </p>
-              </div>
-            </label>
-            <button className={styles.uploadButton}>Submit</button>
-          </form>
-        )}
+        <form className={styles.formContainer} onSubmit={handleSubmit}>
+          <input
+            type="text"
+            className={styles.diseaseInput}
+            placeholder="Disease name"
+            ref={diseaseRef}
+          />
+          <input
+            type="file"
+            id="file-btn"
+            accept=".txt"
+            onChange={showFile}
+            hidden
+          />
+          <label htmlFor="file-btn" className={styles.fileUploadLabel}>
+            <div className={styles.fileUploadContainer}>
+              <img
+                src={UploadImage}
+                className={styles.fileUploadImage}
+                alt=""
+              />
+              <p className={styles.fileUploadText} ref={textRef}>
+                Upload DNA sequence here ...
+              </p>
+              <p className={styles.fileUploadInfo} ref={infoRef}>
+                You have not yet uploaded a DNA sequence!
+              </p>
+            </div>
+          </label>
+          <button className={styles.uploadButton}>Submit</button>
+        </form>
       </div>
     </div>
   );

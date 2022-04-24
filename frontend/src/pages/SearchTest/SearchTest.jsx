@@ -1,9 +1,12 @@
+import "react-toastify/dist/ReactToastify.css";
+
 import styles from "./SearchTest.module.css";
 import { Link } from "react-router-dom";
 import { useState, useRef } from "react";
 import { formatDate, formatSimilarty, inputMatching } from "../../lib";
 import axios from "axios";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const SearchTest = () => {
   const searchRef = useRef(null);
@@ -22,7 +25,7 @@ const SearchTest = () => {
     const queryParams = inputMatching(searchValue);
     console.log(queryParams);
     if (queryParams == -1) {
-      window.alert(`Harap masukkan input yang benar!`);
+      toast.error("Please Insert Correct Input");
       return;
     }
 
@@ -34,9 +37,11 @@ const SearchTest = () => {
       .then((res) => {
         console.log(res.data);
         setDummyResults([...res.data]);
+        toast.success("Upload Success");
       })
       .catch((err) => {
         console.log(err);
+        toast.error("Not Found");
       });
   };
 

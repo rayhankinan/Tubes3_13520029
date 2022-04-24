@@ -1,3 +1,5 @@
+import "react-toastify/dist/ReactToastify.css";
+
 import { Link } from "react-router-dom";
 import { useRef, useState } from "react";
 import { dnaMatching, formatDate, formatSimilarty } from "../../lib";
@@ -5,6 +7,7 @@ import UploadImage from "../../assets/images/upload.png";
 import styles from "./DnaTest.module.css";
 import axios from "axios";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const DnaTest = () => {
   const textRef = useRef(null);
@@ -13,7 +16,6 @@ const DnaTest = () => {
   const diseaseRef = useRef(null);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [status, setStatus] = useState(false);
   const [data, setData] = useState({});
   const [date, setDate] = useState("");
   const [text, setText] = useState("");
@@ -43,12 +45,10 @@ const DnaTest = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!file) {
-      window.alert(`Please upload file first!`);
+      toast.error("Please upload file first!");
       return;
     } else if (!valid) {
-      window.alert(
-        `Please input correct DNA sequence in the'${diseaseRef.current.value}'!`
-      );
+      toast.error("Please upload correct DNA Sequence");
       return;
     } else {
       let body = {
@@ -63,12 +63,13 @@ const DnaTest = () => {
         data: body,
       })
         .then((res) => {
-          setStatus(true);
           setData(res.data);
           setDate(formatDate(res.data.PredictionDate));
+          toast.success("Upload Success");
         })
         .catch((err) => {
           console.log(err);
+          toast.error("Internal Server Error");
         });
     }
     setIsSubmitted(true);
@@ -88,39 +89,39 @@ const DnaTest = () => {
             Check if a certain patient has a certain genetic disease.
           </h2>
         </div>
-        {!status && (
-          <form className={styles.formContainer} onSubmit={handleSubmit}>
-            <input
-              type="text"
-              className={styles.diseaseInput}
-              placeholder="Patient name"
-              ref={nameRef}
-            />
-            <input type="file" id="file-btn" onChange={showFile} hidden />
-            <label htmlFor="file-btn" className={styles.fileUploadLabel}>
-              <div className={styles.fileUploadContainer}>
-                <img
-                  src={UploadImage}
-                  className={styles.fileUploadImage}
-                  alt=""
-                />
-                <p className={styles.fileUploadText} ref={textRef}>
-                  Upload DNA sequence here ...
-                </p>
-                <p className={styles.fileUploadInfo} ref={infoRef}>
-                  You have not yet uploaded a DNA sequence!
-                </p>
-              </div>
-            </label>
-            <input
-              type="text"
-              className={styles.diseaseInput}
-              placeholder="Disease name"
-              ref={diseaseRef}
-            />
-            <button className={styles.uploadButton}>Submit</button>
-          </form>
-        )}
+
+        <form className={styles.formContainer} onSubmit={handleSubmit}>
+          <input
+            type="text"
+            className={styles.diseaseInput}
+            placeholder="Patient name"
+            ref={nameRef}
+          />
+          <input type="file" id="file-btn" onChange={showFile} hidden />
+          <label htmlFor="file-btn" className={styles.fileUploadLabel}>
+            <div className={styles.fileUploadContainer}>
+              <img
+                src={UploadImage}
+                className={styles.fileUploadImage}
+                alt=""
+              />
+              <p className={styles.fileUploadText} ref={textRef}>
+                Upload DNA sequence here ...
+              </p>
+              <p className={styles.fileUploadInfo} ref={infoRef}>
+                You have not yet uploaded a DNA sequence!
+              </p>
+            </div>
+          </label>
+          <input
+            type="text"
+            className={styles.diseaseInput}
+            placeholder="Disease name"
+            ref={diseaseRef}
+          />
+          <button className={styles.uploadButton}>Submit</button>
+        </form>
+
         <div className={styles.resultContainer}>
           <h2 className={styles.subheading}>
             Test result will be shown below.
