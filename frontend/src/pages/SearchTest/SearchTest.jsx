@@ -6,11 +6,12 @@ import { useState, useRef } from "react";
 import { formatDate, formatSimilarty, inputMatching } from "../../lib";
 import axios from "axios";
 import { useEffect } from "react";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 const SearchTest = () => {
   const searchRef = useRef(null);
   const [dummyResults, setDummyResults] = useState([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const URL = "http://localhost:3000/api/predictions/";
 
   useEffect(() => {
@@ -25,7 +26,8 @@ const SearchTest = () => {
     const queryParams = inputMatching(searchValue);
     console.log(queryParams);
     if (queryParams == -1) {
-      toast.error("Please Insert Correct Input");
+      setIsSubmitted(false);
+      toast.error("Please input a valid search query.");
       return;
     }
 
@@ -37,16 +39,30 @@ const SearchTest = () => {
       .then((res) => {
         console.log(res.data);
         setDummyResults([...res.data]);
-        toast.success("Upload Success");
+        toast.success("Search done!");
+        setIsSubmitted(true);
       })
       .catch((err) => {
         console.log(err);
-        toast.error("Not Found");
+        toast.error("Oops, an internal server error occured!");
+        setIsSubmitted(false);
       });
   };
 
   return (
     <div className={styles.root}>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className={styles.container}>
         <div className={styles.logoContainer}>
           <Link to="/" className={styles.logo}>
@@ -73,10 +89,17 @@ const SearchTest = () => {
           <div className={styles.subheading}>
             Search results will be shown below.
           </div>
-          {dummyResults.length == 0 && (
-            <p className={styles.testInfo}>You haven't done a search yet!</p>
+          {!isSubmitted && (
+            <p className={styles.testInfo}>
+              You haven't done a successful search yet!
+            </p>
           )}
-          {dummyResults.length > 0 && (
+          {isSubmitted && dummyResults.length == 0 && (
+            <p className={styles.testInfo}>
+              No past tests found based on your query!
+            </p>
+          )}
+          {isSubmitted && dummyResults.length > 0 && (
             <div className={styles.results}>
               <p className={styles.resultsInfo}>
                 Found {`${dummyResults.length}`} results!
@@ -90,27 +113,27 @@ const SearchTest = () => {
                       </h3>
                       <div className={styles.resultFlex}>
                         <p className={styles.resultInfoL}>Date</p>
-                        <p className={styles.resultInfoL}>
+                        <p className={styles.resultInfoR}>
                           {formatDate(result.PredictionDate)}
                         </p>
                       </div>
                       <div className={styles.resultFlex}>
                         <p className={styles.resultInfoL}>Patient</p>
-                        <p className={styles.resultInfoL}>{result.User}</p>
+                        <p className={styles.resultInfoR}>{result.User}</p>
                       </div>
                       <div className={styles.resultFlex}>
                         <p className={styles.resultInfoL}>Disease</p>
-                        <p className={styles.resultInfoL}>{result.Disease}</p>
+                        <p className={styles.resultInfoR}>{result.Disease}</p>
                       </div>
                       <div className={styles.resultFlex}>
                         <p className={styles.resultInfoL}>Similarity</p>
-                        <p className={styles.resultInfoL}>
+                        <p className={styles.resultInfoR}>
                           {formatSimilarty(result.Similarity)}
                         </p>
                       </div>
                       <div className={styles.resultFlex}>
                         <p className={styles.resultInfoL}>Result</p>
-                        <p className={styles.resultInfoL}>
+                        <p className={styles.resultInfoR}>
                           {result.PredictionStatus === true ? "True" : "False"}
                         </p>
                       </div>
