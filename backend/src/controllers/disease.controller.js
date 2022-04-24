@@ -1,6 +1,3 @@
-// SETUP LIBRARY
-const Sequelize = require("sequelize");
-
 // SETUP FILE
 const db = require("../models");
 const Disease = db.diseases;
@@ -54,7 +51,7 @@ exports.findOne = (req, res) => {
 exports.findAll = (req, res) => {
   const { Name } = req.query;
   const condition = Name
-    ? { Name: { [Sequelize.Op.like]: `%${Name}%` } }
+    ? { Name: Name }
     : null;
 
   Disease.findAll({

@@ -1,12 +1,8 @@
-// SETUP LIBRARY
-const Sequelize = require("sequelize");
-
 // SETUP FILE
 const db = require("../models")
 const bm = require("../algorithms/bm.algorithm.js")
 const kmp = require("../algorithms/kmp.algorithm.js")
-const lcs = require("../algorithms/lcs.algorithm.js")
-const lcss = require("../algorithms/lcss.algorithm.js")
+const ssaha = require("../algorithms/ssaha.algorithm.js")
 const Prediction = db.predictions
 
 // FUNCTION
@@ -21,7 +17,7 @@ exports.create = (req, res) => {
         })
         .then((data) => {
             if (data) {
-                const Similarity = IsKMP ? (kmp(DNASequence, data.DNASequence) ? 1 : lcs(DNASequence, data.DNASequence)) : (bm(DNASequence, data.DNASequence) ? 1 : lcs(DNASequence, data.DNASequence))
+                const Similarity = IsKMP ? (kmp(DNASequence, data.DNASequence) ? 1 : ssaha(DNASequence, data.DNASequence)) : (bm(DNASequence, data.DNASequence) ? 1 : ssaha(DNASequence, data.DNASequence))
                 const PredictionStatus = Similarity >= 0.8
 
                 const prediction = {
@@ -80,7 +76,7 @@ exports.findAll = (req, res) => {
   const condition = {};
 
   if (Disease) {
-    condition.Disease = { [Sequelize.Op.like]: `%${Disease}%` };
+    condition.Disease = Disease;
   }
 
   if (PredictionDate) {
