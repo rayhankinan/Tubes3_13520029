@@ -24,12 +24,12 @@ const inputMatching = (input) => {
       date = parsingDate(temp.slice(0, 3));
       disease = temp[3];
     }
-    return { date: date, disease: disease };
+    return { PredictionDate: date, Disease: disease };
   } else if (allDate.test(input)) {
     date = parsingDate(temp);
-    return { date: date };
+    return { PredictionDate: date };
   } else if (penyakit.test(input)) {
-    return { input: input };
+    return { Disease: input };
   } else {
     return "-1";
   }
@@ -70,4 +70,32 @@ const parsingDate = (dateInput) => {
   return date;
 };
 
-export { dnaMatching, inputMatching, parsingDate };
+const formatDate = (date) => {
+  let formattedDate = new Date(date);
+  const months = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ];
+  return `${formattedDate.getDate()} ${
+    months[formattedDate.getMonth()]
+  } ${formattedDate.getFullYear()}`;
+};
+
+const formatSimilarty = (nums) => {
+  // nums = nums.parseInt(nums);
+  console.log(nums);
+  console.log(typeof nums);
+  return `${100 * parseFloat(nums)}%`;
+};
+
+export { dnaMatching, inputMatching, parsingDate, formatDate, formatSimilarty };

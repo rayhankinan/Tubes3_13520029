@@ -1,49 +1,43 @@
 import styles from "./SearchTest.module.css";
 import { Link } from "react-router-dom";
 import { useState, useRef } from "react";
-import { dnaMatching, inputMatching, parsingDate } from "../../lib";
+import { formatDate, formatSimilarty, inputMatching } from "../../lib";
+import axios from "axios";
+import { useEffect } from "react";
 
 const SearchTest = () => {
   const searchRef = useRef(null);
-
   const [dummyResults, setDummyResults] = useState([]);
+  const URL = "http://localhost:3000/api/predictions/";
+
+  useEffect(() => {
+    console.log(dummyResults);
+  }, [dummyResults]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     /* Catatan: akses text yang ada di input search di variabel searchValue! */
     const searchValue = searchRef.current.value;
-    setDummyResults((oldDummyResults) => {
-      return [
-        {
-          date: "14 April 2022",
-          name: "Marchotridyo",
-          disease: "HIV",
-          similarity: "30%",
-          result: "False",
-        },
-        {
-          date: "14 April 2022",
-          name: "Marchotridyo",
-          disease: "Down Syndrome",
-          similarity: "20%",
-          result: "False",
-        },
-        {
-          date: "14 April 2022",
-          name: "Marchotridyo",
-          disease: "AIDS",
-          similarity: "15%",
-          result: "False",
-        },
-        {
-          date: "14 April 2022",
-          name: "Marchotridyo",
-          disease: "Syphillis",
-          similarity: "5%",
-          result: "False",
-        },
-      ];
-    });
+    const queryParams = inputMatching(searchValue);
+    console.log(queryParams);
+    if (queryParams == -1) {
+      window.alert(`Harap masukkan input yang benar!`);
+      return;
+    }
+
+    axios({
+      method: "get",
+      url: URL,
+      params: queryParams,
+    })
+      .then((res) => {
+        console.log(res.data);
+        setDummyResults([...res.data]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -91,23 +85,29 @@ const SearchTest = () => {
                       </h3>
                       <div className={styles.resultFlex}>
                         <p className={styles.resultInfoL}>Date</p>
-                        <p className={styles.resultInfo}>{result.date}</p>
+                        <p className={styles.resultInfoL}>
+                          {formatDate(result.PredictionDate)}
+                        </p>
                       </div>
                       <div className={styles.resultFlex}>
                         <p className={styles.resultInfoL}>Patient</p>
-                        <p className={styles.resultInfo}>{result.name}</p>
+                        <p className={styles.resultInfoL}>{result.User}</p>
                       </div>
                       <div className={styles.resultFlex}>
                         <p className={styles.resultInfoL}>Disease</p>
-                        <p className={styles.resultInfo}>{result.disease}</p>
+                        <p className={styles.resultInfoL}>{result.Disease}</p>
                       </div>
                       <div className={styles.resultFlex}>
                         <p className={styles.resultInfoL}>Similarity</p>
-                        <p className={styles.resultInfo}>{result.similarity}</p>
+                        <p className={styles.resultInfoL}>
+                          {formatSimilarty(result.Similarity)}
+                        </p>
                       </div>
                       <div className={styles.resultFlex}>
                         <p className={styles.resultInfoL}>Result</p>
-                        <p className={styles.resultInfo}>{result.result}</p>
+                        <p className={styles.resultInfoL}>
+                          {result.PredictionStatus === true ? "True" : "False"}
+                        </p>
                       </div>
                     </div>
                   );
