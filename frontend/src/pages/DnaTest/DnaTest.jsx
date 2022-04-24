@@ -41,6 +41,19 @@ const DnaTest = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (nameRef.current.value == '' || diseaseRef.current.value == '') {
+      toast.error("Please fill out the form first!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setData({})
+      return;
+    }
     if (!file) {
       toast.error("Please upload file first!", {
         position: "bottom-center",
@@ -53,6 +66,7 @@ const DnaTest = () => {
       });
       return;
     } else if (!valid) {
+      setData({});
       toast.error("Please upload a correct DNA sequence!", {
         position: "bottom-center",
         autoClose: 2000,
@@ -210,7 +224,7 @@ const DnaTest = () => {
             </div>
           )}
           {isSubmitted && Object.keys(data).length == 0 && (
-            <p className={styles.testInfo}>An error occured while searching!</p>
+            <p className={styles.testInfo}>An error occured on searching!</p>
           )}
           {!isSubmitted && Object.keys(data).length == 0 && (
             <p className={styles.testInfo}>You haven't done a test yet!</p>

@@ -36,6 +36,18 @@ const GeneticDisorder = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (diseaseRef.current.value == '') {
+      toast.error("Please fill out the form first!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
     if (!file) {
       toast.error("Please upload file first!", {
         position: "bottom-center",
