@@ -6,7 +6,7 @@ import { dnaMatching } from "../../lib";
 import styles from "./GeneticDisorder.module.css";
 import UploadImage from "../../assets/images/upload.png";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 const GeneticDisorder = () => {
   const textRef = useRef(null);
@@ -27,23 +27,36 @@ const GeneticDisorder = () => {
     setFile(true);
     textRef.current.textContent = "File has been uploaded!";
     infoRef.current.textContent = `${e.target.files[0].name}`;
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      setText(e.target.result.trim());
-      if (dnaMatching(text)) {
-        setValid(true);
-      } else setValid(false);
-    };
-    reader.readAsText(e.target.files[0]);
+    const tmp = (await e.target.files[0].text()).trim();
+    if (dnaMatching(tmp) && tmp.length > 0) {
+      setValid(true);
+    } else setValid(false);
+    setText(tmp);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!file) {
-      toast.error("Please upload file first!");
+      toast.error("Please upload file first!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     } else if (!valid) {
-      toast.error("Please upload correct DNA Sequence");
+      toast.error("Please upload a correct DNA sequence!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     } else {
       let body = {
@@ -58,17 +71,45 @@ const GeneticDisorder = () => {
       })
         .then((res) => {
           console.log(res.data);
-          toast.success("Upload Success");
+          toast.success("Disease successfully added!", {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         })
         .catch((err) => {
           console.log(err);
-          toast.error("Disease name already exists");
+          toast.error("Disease name already exists!", {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         });
     }
   };
 
   return (
     <div className={styles.root}>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className={styles.container}>
         <div className={styles.logoContainer}>
           <Link to="/" className={styles.logo}>

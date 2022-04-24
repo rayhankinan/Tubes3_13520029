@@ -7,7 +7,7 @@ import UploadImage from "../../assets/images/upload.png";
 import styles from "./DnaTest.module.css";
 import axios from "axios";
 import { useEffect } from "react";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 const DnaTest = () => {
   const textRef = useRef(null);
@@ -32,23 +32,36 @@ const DnaTest = () => {
     setFile(true);
     textRef.current.textContent = "File has been uploaded!";
     infoRef.current.textContent = `${e.target.files[0].name}`;
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      setText(e.target.result.trim());
-      if (dnaMatching(text)) {
-        setValid(true);
-      } else setValid(false);
-    };
-    reader.readAsText(e.target.files[0]);
+    const tmp = (await e.target.files[0].text()).trim();
+    if (dnaMatching(tmp) && tmp.length > 0) {
+      setValid(true);
+    } else setValid(false);
+    setText(tmp);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!file) {
-      toast.error("Please upload file first!");
+      toast.error("Please upload file first!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     } else if (!valid) {
-      toast.error("Please upload correct DNA Sequence");
+      toast.error("Please upload a correct DNA sequence!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     } else {
       let body = {
@@ -65,11 +78,40 @@ const DnaTest = () => {
         .then((res) => {
           setData(res.data);
           setDate(formatDate(res.data.PredictionDate));
-          toast.success("Upload Success");
+          toast.success("Test done successfully!", {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         })
         .catch((err) => {
+          setData({})
           console.log(err);
-          toast.error("Internal Server Error");
+          if (err.response.status === 404) {
+            toast.error("Disease not found at database!", {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          } else {
+            toast.error("Oops, something wrong happened at the server side!", {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          }
         });
     }
     setIsSubmitted(true);
@@ -77,6 +119,18 @@ const DnaTest = () => {
 
   return (
     <div className={styles.root}>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className={styles.container}>
         <div className={styles.logoContainer}>
           <Link to="/" className={styles.logo}>
@@ -126,36 +180,39 @@ const DnaTest = () => {
           <h2 className={styles.subheading}>
             Test result will be shown below.
           </h2>
-          {isSubmitted && (
+          {isSubmitted && Object.keys(data).length != 0 && (
             <div className={styles.resultCard}>
               <h3 className={styles.resultHeading}>Test result</h3>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Date</p>
-                <p className={styles.resultInfoL}>{date}</p>
+                <p className={styles.resultInfoR}>{date}</p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Patient</p>
-                <p className={styles.resultInfoL}>{data.User}</p>
+                <p className={styles.resultInfoR}>{data.User}</p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Disease</p>
-                <p className={styles.resultInfoL}>{data.Disease}</p>
+                <p className={styles.resultInfoR}>{data.Disease}</p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Similarity</p>
-                <p className={styles.resultInfoL}>
+                <p className={styles.resultInfoR}>
                   {formatSimilarty(data.Similarity)}
                 </p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Result</p>
-                <p className={styles.resultInfoL}>
+                <p className={styles.resultInfoR}>
                   {data.PredictionStatus === true ? "True" : "False"}
                 </p>
               </div>
             </div>
           )}
-          {!isSubmitted && (
+          {isSubmitted && Object.keys(data).length == 0 && (
+            <p className={styles.testInfo}>An error occured while searching!</p>
+          )}
+          {!isSubmitted && Object.keys(data).length == 0 && (
             <p className={styles.testInfo}>You haven't done a test yet!</p>
           )}
         </div>
