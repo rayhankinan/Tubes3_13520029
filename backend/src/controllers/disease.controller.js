@@ -1,6 +1,3 @@
-// SETUP LIBRARY
-const Sequelize = require("sequelize");
-
 // SETUP FILE
 const db = require("../models");
 const Disease = db.diseases;
