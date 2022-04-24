@@ -25,6 +25,5 @@ const ssaha = (text, pattern) => {
 }
 
 module.exports = (text, pattern) => {
-    console.log(ssaha(text, pattern))
     return ssaha(text, pattern) / pattern.length
 }
