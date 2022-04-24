@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { useRef, useState } from "react";
-import { dnaMatching, inputMatching, parsingDate } from "../../lib";
+import { dnaMatching, formatDate, formatSimilarty } from "../../lib";
 import UploadImage from "../../assets/images/upload.png";
 import styles from "./DnaTest.module.css";
 import axios from "axios";
+import { useEffect } from "react";
 
 const DnaTest = () => {
   const textRef = useRef(null);
@@ -20,13 +21,9 @@ const DnaTest = () => {
   const [file, setFile] = useState(false);
   const URL = "http://localhost:3000/api/predictions/";
 
-  const dummyData = {
-    PredictionDate: "14 April 2022",
-    User: "Marchotridyo",
-    Disease: "HIV",
-    Similarity: "30%",
-    PredictionStatus: "False",
-  };
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   const showFile = async (e) => {
     e.preventDefault();
@@ -68,30 +65,13 @@ const DnaTest = () => {
         .then((res) => {
           setStatus(true);
           setData(res.data);
-          const date2 = new Date(res.data.PredictionDate);
-          setDate(date2.toLocaleDateString());
+          setDate(formatDate(res.data.PredictionDate));
         })
         .catch((err) => {
           console.log(err);
         });
     }
     setIsSubmitted(true);
-    let similarity = "30%";
-    let result = "False";
-    const months = [
-      "Januari",
-      "Februari",
-      "Maret",
-      "April",
-      "Mei",
-      "Juni",
-      "Juli",
-      "Agustus",
-      "September",
-      "Oktober",
-      "November",
-      "Desember",
-    ];
   };
 
   return (
@@ -150,23 +130,25 @@ const DnaTest = () => {
               <h3 className={styles.resultHeading}>Test result</h3>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Date</p>
-                <p className={styles.resultInfo}>{date}</p>
+                <p className={styles.resultInfoL}>{date}</p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Patient</p>
-                <p className={styles.resultInfo}>{data.User}</p>
+                <p className={styles.resultInfoL}>{data.User}</p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Disease</p>
-                <p className={styles.resultInfo}>{data.Disease}</p>
+                <p className={styles.resultInfoL}>{data.Disease}</p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Similarity</p>
-                <p className={styles.resultInfo}>{data.Similarity}</p>
+                <p className={styles.resultInfoL}>
+                  {formatSimilarty(data.Similarity)}
+                </p>
               </div>
               <div className={styles.resultFlex}>
                 <p className={styles.resultInfoL}>Result</p>
-                <p className={styles.resultInfo}>
+                <p className={styles.resultInfoL}>
                   {data.PredictionStatus === true ? "True" : "False"}
                 </p>
               </div>

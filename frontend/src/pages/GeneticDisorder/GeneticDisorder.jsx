@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { dnaMatching, inputMatching, parsingDate } from "../../lib";
+import { dnaMatching } from "../../lib";
 import styles from "./GeneticDisorder.module.css";
 import UploadImage from "../../assets/images/upload.png";
 import axios from "axios";
