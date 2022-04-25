@@ -12,7 +12,7 @@ const diseaseRoutes = require("./routes/disease.routes.js");
 const predictionRoutes = require("./routes/prediction.routes.js");
 
 // SETUP VARIABLE
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 // SETUP APPLICATION
 const app = express();
