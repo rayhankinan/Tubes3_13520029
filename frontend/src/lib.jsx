@@ -93,8 +93,6 @@ const formatDate = (date) => {
 
 const formatSimilarty = (nums) => {
   // nums = nums.parseInt(nums);
-  console.log(nums);
-  console.log(typeof nums);
   return `${100 * parseFloat(nums)}%`;
 };
 

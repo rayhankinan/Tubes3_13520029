@@ -21,10 +21,9 @@ const DnaTest = () => {
   const [text, setText] = useState("");
   const [valid, setValid] = useState(true);
   const [file, setFile] = useState(false);
-  const URL = "http://localhost:3000/api/predictions/";
+  const URL = "https://dna-pattern-matching.herokuapp.com/api/predictions/";
 
   useEffect(() => {
-    console.log(data);
   }, [data]);
 
   const showFile = async (e) => {
@@ -41,7 +40,7 @@ const DnaTest = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (nameRef.current.value == '' || diseaseRef.current.value == '') {
+    if (nameRef.current.value == "" || diseaseRef.current.value == "") {
       toast.error("Please fill out the form first!", {
         position: "bottom-center",
         autoClose: 2000,
@@ -51,7 +50,7 @@ const DnaTest = () => {
         draggable: true,
         progress: undefined,
       });
-      setData({})
+      setData({});
       return;
     }
     if (!file) {
@@ -103,8 +102,7 @@ const DnaTest = () => {
           });
         })
         .catch((err) => {
-          setData({})
-          console.log(err);
+          setData({});
           if (err.response.status === 404) {
             toast.error("Disease not found at database!", {
               position: "bottom-center",

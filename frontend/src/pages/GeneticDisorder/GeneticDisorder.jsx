@@ -16,10 +16,9 @@ const GeneticDisorder = () => {
   const [text, setText] = useState("");
   const [file, setFile] = useState(false);
 
-  const URL = "http://localhost:3000/api/diseases";
+  const URL = "https://dna-pattern-matching.herokuapp.com/api/diseases";
 
   useEffect(() => {
-    console.log(text);
   }, [text]);
 
   const showFile = async (e) => {
@@ -36,7 +35,7 @@ const GeneticDisorder = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (diseaseRef.current.value == '') {
+    if (diseaseRef.current.value == "") {
       toast.error("Please fill out the form first!", {
         position: "bottom-center",
         autoClose: 2000,
@@ -75,14 +74,12 @@ const GeneticDisorder = () => {
         Name: diseaseRef.current.value,
         DNASequence: text,
       };
-      console.log(body);
       axios({
         method: "post",
         url: URL,
         data: body,
       })
         .then((res) => {
-          console.log(res.data);
           toast.success("Disease successfully added!", {
             position: "bottom-center",
             autoClose: 2000,
@@ -94,7 +91,6 @@ const GeneticDisorder = () => {
           });
         })
         .catch((err) => {
-          console.log(err);
           toast.error("Disease name already exists!", {
             position: "bottom-center",
             autoClose: 2000,

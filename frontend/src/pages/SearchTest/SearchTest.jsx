@@ -12,10 +12,9 @@ const SearchTest = () => {
   const searchRef = useRef(null);
   const [dummyResults, setDummyResults] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const URL = "http://localhost:3000/api/predictions/";
+  const URL = "https://dna-pattern-matching.herokuapp.com/api/predictions/";
 
   useEffect(() => {
-    console.log(dummyResults);
   }, [dummyResults]);
 
   const handleSubmit = (e) => {
@@ -24,7 +23,6 @@ const SearchTest = () => {
     /* Catatan: akses text yang ada di input search di variabel searchValue! */
     const searchValue = searchRef.current.value;
     const queryParams = inputMatching(searchValue);
-    console.log(queryParams);
     if (queryParams == -1) {
       setIsSubmitted(false);
       toast.error("Please input a valid search query.");
@@ -37,13 +35,12 @@ const SearchTest = () => {
       params: queryParams,
     })
       .then((res) => {
-        console.log(res.data);
         setDummyResults([...res.data]);
         toast.success("Search done!");
         setIsSubmitted(true);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err)
         toast.error("Oops, an internal server error occured!");
         setIsSubmitted(false);
       });
