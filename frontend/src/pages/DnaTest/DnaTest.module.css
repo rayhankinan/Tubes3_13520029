@@ -153,6 +153,23 @@
   text-transform: capitalize;
 }
 
+.radioContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 15px;
+}
+
+.radioFlex {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.radioFlex p {
+  color: var(--white2);
+}
+
 @media (min-width: 992px) {
   .container {
     padding: 60px;

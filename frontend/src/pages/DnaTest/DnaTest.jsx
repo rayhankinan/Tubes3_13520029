@@ -24,6 +24,7 @@ const DnaTest = () => {
   const [valid, setValid] = useState(true);
   const [file, setFile] = useState(false);
   const URL = "https://dna-pattern-matching.herokuapp.com/api/predictions/";
+  const [method, setMethod] = useState('kmp')
 
   useEffect(() => {
   }, [data]);
@@ -83,7 +84,7 @@ const DnaTest = () => {
         User: nameRef.current.value,
         Disease: diseaseRef.current.value,
         DNASequence: text,
-        IsKMP: true,
+        IsKMP: method === 'kmp' ? true : false,
       };
       setIsLoading(true);
       axios({
@@ -191,6 +192,24 @@ const DnaTest = () => {
             placeholder="Disease name"
             ref={diseaseRef}
           />
+          <div className={styles.radioContainer}>
+            <div className={styles.radioFlex}>
+              <input
+                type="radio"
+                checked={method === "kmp"}
+                onChange={() => setMethod("kmp")}
+              />
+              <p>Test using Knuth-Morris-Pratt pattern searching algorithm</p>
+            </div>
+            <div className={styles.radioFlex}>
+              <input
+                type="radio"
+                checked={method === "bm"}
+                onChange={() => setMethod("bm")}
+              />
+              <p>Test using Bayer-Moore pattern searching algorithm</p>
+            </div>
+          </div>
           <button className={styles.uploadButton}>Submit</button>
         </form>
 
