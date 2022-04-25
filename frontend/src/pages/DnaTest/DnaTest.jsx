@@ -8,7 +8,7 @@ import styles from "./DnaTest.module.css";
 import axios from "axios";
 import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import Loading from "../Loading"
+import Loading from "../Loading";
 
 const DnaTest = () => {
   const textRef = useRef(null);
@@ -24,10 +24,9 @@ const DnaTest = () => {
   const [valid, setValid] = useState(true);
   const [file, setFile] = useState(false);
   const URL = "https://dna-pattern-matching.herokuapp.com/api/predictions/";
-  const [method, setMethod] = useState('kmp')
+  const [method, setMethod] = useState("kmp");
 
-  useEffect(() => {
-  }, [data]);
+  useEffect(() => {}, [data]);
 
   const showFile = async (e) => {
     e.preventDefault();
@@ -84,7 +83,7 @@ const DnaTest = () => {
         User: nameRef.current.value,
         Disease: diseaseRef.current.value,
         DNASequence: text,
-        IsKMP: method === 'kmp' ? true : false,
+        IsKMP: method === "kmp" ? true : false,
       };
       setIsLoading(true);
       axios({
@@ -92,7 +91,7 @@ const DnaTest = () => {
         url: URL,
         data: body,
       })
-      .then((res) => {
+        .then((res) => {
           setIsLoading(false);
           setData(res.data);
           setDate(formatDate(res.data.PredictionDate));
