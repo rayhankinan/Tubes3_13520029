@@ -96,4 +96,16 @@ const formatSimilarty = (nums) => {
   return `${100 * parseFloat(nums)}%`;
 };
 
-export { dnaMatching, inputMatching, parsingDate, formatDate, formatSimilarty };
+const geneticDisorderMatching = (input) => {
+  const penyakit = new RegExp(/^([A-Za-z]+[-]?)+[0-9]{0,2}$/, "i");
+  return penyakit.test(input);
+};
+
+export {
+  dnaMatching,
+  inputMatching,
+  parsingDate,
+  formatDate,
+  formatSimilarty,
+  geneticDisorderMatching,
+};

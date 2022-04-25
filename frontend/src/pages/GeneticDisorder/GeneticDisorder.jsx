@@ -2,7 +2,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { dnaMatching } from "../../lib";
+import { dnaMatching, geneticDisorderMatching } from "../../lib";
 import styles from "./GeneticDisorder.module.css";
 import UploadImage from "../../assets/images/upload.png";
 import axios from "axios";
@@ -19,6 +19,13 @@ const GeneticDisorder = () => {
   const URL = "https://dna-pattern-matching.herokuapp.com/api/diseases";
 
   useEffect(() => {
+    if (
+      dnaMatching(text) &&
+      text.length > 0 &&
+      geneticDisorderMatching(diseaseRef.current.value)
+    ) {
+      setValid(true);
+    } else setValid(false);
   }, [text]);
 
   const showFile = async (e) => {
