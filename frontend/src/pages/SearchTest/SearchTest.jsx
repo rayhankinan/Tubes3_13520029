@@ -16,8 +16,7 @@ const SearchTest = () => {
   const [isLoading, setIsLoading] = useState(false);
   const URL = "https://dna-pattern-matching.herokuapp.com/api/predictions/";
 
-  useEffect(() => {
-  }, [dummyResults]);
+  useEffect(() => {}, [dummyResults]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,8 +29,6 @@ const SearchTest = () => {
       toast.error("Please input a valid search query.");
       return;
     }
-
-    setIsLoading(true);
     axios({
       method: "get",
       url: URL,
@@ -45,7 +42,7 @@ const SearchTest = () => {
       })
       .catch((err) => {
         setIsLoading(false);
-        console.log(err)
+        console.log(err);
         toast.error("Oops, an internal server error occured!");
         setIsSubmitted(false);
       });
@@ -75,7 +72,8 @@ const SearchTest = () => {
         <div className={styles.headerContainer}>
           <h1 className={styles.heading}>Search for past tests</h1>
           <h2 className={styles.subheading}>
-            See a list of past tests by entering a date or a genetic disease. You can also search for a combination of them.
+            See a list of past tests by entering a date or a genetic disease.
+            You can also search for a combination of them.
           </h2>
         </div>
         <form className={styles.formContainer} onSubmit={handleSubmit}>
