@@ -5,10 +5,10 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/add-disorder" element={<GeneticDisorder />} />
-        <Route exact path="/search" element={<SearchTest />} />
-        <Route exact path="/dna-test" element={<DnaTest />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/add-disorder" element={<GeneticDisorder />} />
+        <Route path="/search" element={<SearchTest />} />
+        <Route path="/dna-test" element={<DnaTest />} />
       </Routes>
     </Router>
   );
