@@ -21,7 +21,7 @@ module.exports = (sequelize) => {
       },
     },
     PredictionDate: {
-      type: Sequelize.DATE,
+      type: Sequelize.DATEONLY,
       defaultValue: Sequelize.NOW,
       allowNull: false,
     },
