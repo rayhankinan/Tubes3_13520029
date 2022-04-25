@@ -1,3 +1,6 @@
+// SETUP LIBRARY
+const Sequelize = require("sequelize")
+
 // SETUP FILE
 const db = require("../models")
 const bm = require("../algorithms/bm.algorithm.js")
@@ -80,7 +83,7 @@ exports.findAll = (req, res) => {
   }
 
   if (PredictionDate) {
-    condition.PredictionDate = PredictionDate;
+    condition.PredictionDate = Sequelize.where(Sequelize.fn("DATE", Sequelize.col("PredictionDate")), "=", PredictionDate);
   }
 
   Prediction.findAll({
