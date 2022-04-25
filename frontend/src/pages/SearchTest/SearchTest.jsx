@@ -7,11 +7,13 @@ import { formatDate, formatSimilarty, inputMatching } from "../../lib";
 import axios from "axios";
 import { useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
+import Loading from "../Loading";
 
 const SearchTest = () => {
   const searchRef = useRef(null);
   const [dummyResults, setDummyResults] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const URL = "https://dna-pattern-matching.herokuapp.com/api/predictions/";
 
   useEffect(() => {
@@ -29,17 +31,20 @@ const SearchTest = () => {
       return;
     }
 
+    setIsLoading(true);
     axios({
       method: "get",
       url: URL,
       params: queryParams,
     })
       .then((res) => {
+        setIsLoading(false);
         setDummyResults([...res.data]);
         toast.success("Search done!");
         setIsSubmitted(true);
       })
       .catch((err) => {
+        setIsLoading(false);
         console.log(err)
         toast.error("Oops, an internal server error occured!");
         setIsSubmitted(false);
@@ -48,6 +53,7 @@ const SearchTest = () => {
 
   return (
     <div className={styles.root}>
+      {isLoading && <Loading />}
       <ToastContainer
         position="bottom-center"
         autoClose={2000}
@@ -67,10 +73,9 @@ const SearchTest = () => {
           </Link>
         </div>
         <div className={styles.headerContainer}>
-          <h1 className={styles.heading}>Add genetic disorder</h1>
+          <h1 className={styles.heading}>Search for past tests</h1>
           <h2 className={styles.subheading}>
-            Add a new genetic disorder to the database alongside it's DNA
-            sequence.
+            See a list of past tests by entering a date or a genetic disease. You can also search for a combination of them.
           </h2>
         </div>
         <form className={styles.formContainer} onSubmit={handleSubmit}>

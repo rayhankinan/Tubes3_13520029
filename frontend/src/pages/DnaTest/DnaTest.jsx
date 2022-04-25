@@ -8,6 +8,7 @@ import styles from "./DnaTest.module.css";
 import axios from "axios";
 import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import Loading from "../Loading"
 
 const DnaTest = () => {
   const textRef = useRef(null);
@@ -16,6 +17,7 @@ const DnaTest = () => {
   const diseaseRef = useRef(null);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({});
   const [date, setDate] = useState("");
   const [text, setText] = useState("");
@@ -83,12 +85,14 @@ const DnaTest = () => {
         DNASequence: text,
         IsKMP: true,
       };
+      setIsLoading(true);
       axios({
         method: "post",
         url: URL,
         data: body,
       })
-        .then((res) => {
+      .then((res) => {
+          setIsLoading(false);
           setData(res.data);
           setDate(formatDate(res.data.PredictionDate));
           toast.success("Test done successfully!", {
@@ -102,6 +106,7 @@ const DnaTest = () => {
           });
         })
         .catch((err) => {
+          setIsLoading(false);
           setData({});
           if (err.response.status === 404) {
             toast.error("Disease not found at database!", {
@@ -131,6 +136,7 @@ const DnaTest = () => {
 
   return (
     <div className={styles.root}>
+      {isLoading && <Loading />}
       <ToastContainer
         position="bottom-center"
         autoClose={2000}

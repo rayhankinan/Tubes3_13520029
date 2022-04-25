@@ -1,0 +1,15 @@
+.root {
+  position: sticky;
+  height: 100vh;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: #28293d;
+  display: grid;
+  place-items: center;
+  z-index: 30;
+}
+
+.loading {
+  z-index: 60;
+}
