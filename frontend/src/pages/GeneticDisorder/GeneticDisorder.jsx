@@ -2,11 +2,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { dnaMatching } from "../../lib";
+import { dnaMatching, geneticDisorderMatching } from "../../lib";
 import styles from "./GeneticDisorder.module.css";
 import UploadImage from "../../assets/images/upload.png";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import Loading from "../Loading"
 
 const GeneticDisorder = () => {
   const textRef = useRef(null);
@@ -15,12 +16,9 @@ const GeneticDisorder = () => {
   const [valid, setValid] = useState(false);
   const [text, setText] = useState("");
   const [file, setFile] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const URL = "http://localhost:3000/api/diseases";
-
-  useEffect(() => {
-    console.log(text);
-  }, [text]);
+  const URL = "https://dna-pattern-matching.herokuapp.com/api/diseases";
 
   const showFile = async (e) => {
     e.preventDefault();
@@ -36,7 +34,7 @@ const GeneticDisorder = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (diseaseRef.current.value == '') {
+    if (diseaseRef.current.value == "") {
       toast.error("Please fill out the form first!", {
         position: "bottom-center",
         autoClose: 2000,
@@ -70,19 +68,29 @@ const GeneticDisorder = () => {
         progress: undefined,
       });
       return;
+    } else if (!geneticDisorderMatching(diseaseRef.current.value)) {
+      toast.error("Please format the disease name properly!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
     } else {
       let body = {
         Name: diseaseRef.current.value,
         DNASequence: text,
       };
-      console.log(body);
+      setIsLoading(true);
       axios({
         method: "post",
         url: URL,
         data: body,
       })
         .then((res) => {
-          console.log(res.data);
           toast.success("Disease successfully added!", {
             position: "bottom-center",
             autoClose: 2000,
@@ -92,9 +100,9 @@ const GeneticDisorder = () => {
             draggable: true,
             progress: undefined,
           });
+          setIsLoading(false);
         })
         .catch((err) => {
-          console.log(err);
           toast.error("Disease name already exists!", {
             position: "bottom-center",
             autoClose: 2000,
@@ -104,12 +112,13 @@ const GeneticDisorder = () => {
             draggable: true,
             progress: undefined,
           });
+          setIsLoading(false);
         });
     }
   };
-
   return (
     <div className={styles.root}>
+      {isLoading && <Loading />}
       <ToastContainer
         position="bottom-center"
         autoClose={2000}

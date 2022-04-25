@@ -7,15 +7,16 @@ import { formatDate, formatSimilarty, inputMatching } from "../../lib";
 import axios from "axios";
 import { useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
+import Loading from "../Loading";
 
 const SearchTest = () => {
   const searchRef = useRef(null);
   const [dummyResults, setDummyResults] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const URL = "http://localhost:3000/api/predictions/";
+  const [isLoading, setIsLoading] = useState(false);
+  const URL = "https://dna-pattern-matching.herokuapp.com/api/predictions/";
 
   useEffect(() => {
-    console.log(dummyResults);
   }, [dummyResults]);
 
   const handleSubmit = (e) => {
@@ -24,26 +25,27 @@ const SearchTest = () => {
     /* Catatan: akses text yang ada di input search di variabel searchValue! */
     const searchValue = searchRef.current.value;
     const queryParams = inputMatching(searchValue);
-    console.log(queryParams);
     if (queryParams == -1) {
       setIsSubmitted(false);
       toast.error("Please input a valid search query.");
       return;
     }
 
+    setIsLoading(true);
     axios({
       method: "get",
       url: URL,
       params: queryParams,
     })
       .then((res) => {
-        console.log(res.data);
+        setIsLoading(false);
         setDummyResults([...res.data]);
         toast.success("Search done!");
         setIsSubmitted(true);
       })
       .catch((err) => {
-        console.log(err);
+        setIsLoading(false);
+        console.log(err)
         toast.error("Oops, an internal server error occured!");
         setIsSubmitted(false);
       });
@@ -51,6 +53,7 @@ const SearchTest = () => {
 
   return (
     <div className={styles.root}>
+      {isLoading && <Loading />}
       <ToastContainer
         position="bottom-center"
         autoClose={2000}
@@ -70,10 +73,9 @@ const SearchTest = () => {
           </Link>
         </div>
         <div className={styles.headerContainer}>
-          <h1 className={styles.heading}>Add genetic disorder</h1>
+          <h1 className={styles.heading}>Search for past tests</h1>
           <h2 className={styles.subheading}>
-            Add a new genetic disorder to the database alongside it's DNA
-            sequence.
+            See a list of past tests by entering a date or a genetic disease. You can also search for a combination of them.
           </h2>
         </div>
         <form className={styles.formContainer} onSubmit={handleSubmit}>

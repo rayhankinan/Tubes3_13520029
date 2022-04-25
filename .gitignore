@@ -131,3 +131,4 @@ dist-ssr
 *.sw?
 
 .tool-versions
+.vercel

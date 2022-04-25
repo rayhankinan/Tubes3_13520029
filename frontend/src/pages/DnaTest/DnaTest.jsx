@@ -8,6 +8,7 @@ import styles from "./DnaTest.module.css";
 import axios from "axios";
 import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import Loading from "../Loading"
 
 const DnaTest = () => {
   const textRef = useRef(null);
@@ -16,15 +17,16 @@ const DnaTest = () => {
   const diseaseRef = useRef(null);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({});
   const [date, setDate] = useState("");
   const [text, setText] = useState("");
   const [valid, setValid] = useState(true);
   const [file, setFile] = useState(false);
-  const URL = "http://localhost:3000/api/predictions/";
+  const URL = "https://dna-pattern-matching.herokuapp.com/api/predictions/";
+  const [method, setMethod] = useState('kmp')
 
   useEffect(() => {
-    console.log(data);
   }, [data]);
 
   const showFile = async (e) => {
@@ -41,7 +43,7 @@ const DnaTest = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (nameRef.current.value == '' || diseaseRef.current.value == '') {
+    if (nameRef.current.value == "" || diseaseRef.current.value == "") {
       toast.error("Please fill out the form first!", {
         position: "bottom-center",
         autoClose: 2000,
@@ -51,7 +53,7 @@ const DnaTest = () => {
         draggable: true,
         progress: undefined,
       });
-      setData({})
+      setData({});
       return;
     }
     if (!file) {
@@ -82,14 +84,16 @@ const DnaTest = () => {
         User: nameRef.current.value,
         Disease: diseaseRef.current.value,
         DNASequence: text,
-        IsKMP: true,
+        IsKMP: method === 'kmp' ? true : false,
       };
+      setIsLoading(true);
       axios({
         method: "post",
         url: URL,
         data: body,
       })
-        .then((res) => {
+      .then((res) => {
+          setIsLoading(false);
           setData(res.data);
           setDate(formatDate(res.data.PredictionDate));
           toast.success("Test done successfully!", {
@@ -103,8 +107,8 @@ const DnaTest = () => {
           });
         })
         .catch((err) => {
-          setData({})
-          console.log(err);
+          setIsLoading(false);
+          setData({});
           if (err.response.status === 404) {
             toast.error("Disease not found at database!", {
               position: "bottom-center",
@@ -133,6 +137,7 @@ const DnaTest = () => {
 
   return (
     <div className={styles.root}>
+      {isLoading && <Loading />}
       <ToastContainer
         position="bottom-center"
         autoClose={2000}
@@ -187,6 +192,24 @@ const DnaTest = () => {
             placeholder="Disease name"
             ref={diseaseRef}
           />
+          <div className={styles.radioContainer}>
+            <div className={styles.radioFlex}>
+              <input
+                type="radio"
+                checked={method === "kmp"}
+                onChange={() => setMethod("kmp")}
+              />
+              <p>Test using Knuth-Morris-Pratt pattern searching algorithm</p>
+            </div>
+            <div className={styles.radioFlex}>
+              <input
+                type="radio"
+                checked={method === "bm"}
+                onChange={() => setMethod("bm")}
+              />
+              <p>Test using Bayer-Moore pattern searching algorithm</p>
+            </div>
+          </div>
           <button className={styles.uploadButton}>Submit</button>
         </form>
 
