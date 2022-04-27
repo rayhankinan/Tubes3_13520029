@@ -203,11 +203,13 @@ const DnaTest = () => {
               </p>
             </div>
           </label>
-          <Select options={
-            diseases.map((disease) => {
-              return {value: disease.Name, label: disease.Name};
-            })
-          } onChange={handleChange}/>
+          <div style={{width: "100%"}}>
+            <Select options={
+              diseases.map((disease) => {
+                return {value: disease.Name, label: disease.Name};
+              })
+            } onChange={handleChange} />
+          </div>
           <div className={styles.radioContainer}>
             <div className={styles.radioFlex}>
               <input
