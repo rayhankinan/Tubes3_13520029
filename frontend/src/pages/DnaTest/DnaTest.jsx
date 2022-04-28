@@ -225,7 +225,7 @@ const DnaTest = () => {
                 checked={method === "bm"}
                 onChange={() => setMethod("bm")}
               />
-              <p>Test using Bayer-Moore pattern searching algorithm</p>
+              <p>Test using Boyer-Moore pattern searching algorithm</p>
             </div>
           </div>
           <button className={styles.uploadButton}>Submit</button>
