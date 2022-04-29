@@ -1,4 +1,4 @@
-# Dna Pattern Matching - DNAobama
+# DNA Pattern Matching - DNAobama
 Tugas Besar 3 IF2211 Strategi Algoritma Semester II Tahun 2021/2022 Penerapan String Matching dan Regular Expression dalam DNA Pattern Matching
 
 ## Authors
