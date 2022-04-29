@@ -10,7 +10,7 @@ Tugas Besar 3 IF2211 Strategi Algoritma Semester II Tahun 2021/2022 Penerapan St
 | Marchotridyo | 13520119 |
 
 ## General Information
-DNAobama is a website that provides features to upload DNA disease to the system. Users also can upload their DNA and check if the user have the disease or not and lastly user can search for past test by date or by the disease itself. The deployed version of the website can be accsessed [here](https://dna-obama.vercel.app/) 
+DNAobama is a website that provides features to upload DNA disease to the system. Users also can upload their DNA and check if the user have the disease or not and lastly user can search for past test by date or by the disease itself. The deployed version of the website can be accsessed [DNAobama](https://dna-obama.vercel.app/) 
 
 ## Screenshot
 ![image](https://user-images.githubusercontent.com/63847012/165926103-38d05ddd-3823-4503-af46-cef4b961818f.png)
