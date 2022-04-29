@@ -10,7 +10,8 @@ module.exports = (sequelize) => {
         },
         Name: {
             type: Sequelize.STRING,
-            unique: true
+            unique: true,
+            allowNull: false
         },
         DNASequence: {
             type: Sequelize.TEXT("long"),
