@@ -25,13 +25,13 @@ const DnaTest = () => {
   const [text, setText] = useState("");
   const [valid, setValid] = useState(true);
   const [file, setFile] = useState(false);
-  // const URL = "https://dna-pattern-matching.herokuapp.com/api/predictions/";
-  const URL = "http://localhost:3000/api/predictions/";
+  const URL = "https://dna-pattern-matching.herokuapp.com/api/predictions/";
+  // const URL = "http://localhost:3000/api/predictions/";
   const [method, setMethod] = useState("kmp");
 
   const fetchDiseases = async (e) => {
-    // const diseasesURL = "https://dna-pattern-matching.herokuapp.com/api/diseases/";
-    const diseasesURL = "http://localhost:3000/api/diseases/";
+    const diseasesURL = "https://dna-pattern-matching.herokuapp.com/api/diseases/";
+    // const diseasesURL = "http://localhost:3000/api/diseases/";
     const response = await axios.get(diseasesURL);
     setDiseases(response.data);
   }
@@ -108,7 +108,6 @@ const DnaTest = () => {
         IsKMP: method === "kmp" ? true : false,
         PredictionDate: tempDate
       };
-      console.log(body);
       setIsLoading(true);
       axios({
         method: "post",
@@ -118,7 +117,9 @@ const DnaTest = () => {
         .then((res) => {
           setIsLoading(false);
           setData(res.data);
-          setDate(formatDate(res.data.PredictionDate));
+          let tempDate = new Date(res.data.PredictionDate);
+          tempDate.setHours(tempDate.getHours() - 7);
+          setDate(formatDate(tempDate));
           toast.success("Test done successfully!", {
             position: "bottom-center",
             autoClose: 2000,

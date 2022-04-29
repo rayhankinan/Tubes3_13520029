@@ -18,8 +18,8 @@ const GeneticDisorder = () => {
   const [file, setFile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // const URL = "https://dna-pattern-matching.herokuapp.com/api/diseases";
-  const URL = "http://localhost:3000/api/diseases/";
+  const URL = "https://dna-pattern-matching.herokuapp.com/api/diseases";
+  // const URL = "http://localhost:3000/api/diseases/";
 
   const showFile = async (e) => {
     e.preventDefault();

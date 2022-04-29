@@ -14,8 +14,8 @@ const SearchTest = () => {
   const [dummyResults, setDummyResults] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  // const URL = "https://dna-pattern-matching.herokuapp.com/api/predictions/";
-  const URL = "http://localhost:3000/api/predictions/";
+  const URL = "https://dna-pattern-matching.herokuapp.com/api/predictions/";
+  // const URL = "http://localhost:3000/api/predictions/";
 
   useEffect(() => {}, [dummyResults]);
 
@@ -25,7 +25,6 @@ const SearchTest = () => {
     /* Catatan: akses text yang ada di input search di variabel searchValue! */
     const searchValue = searchRef.current.value;
     const queryParams = inputMatching(searchValue);
-    console.log(queryParams);
     if (queryParams == -1) {
       setIsSubmitted(false);
       toast.error("Please input a valid search query.");
@@ -108,6 +107,8 @@ const SearchTest = () => {
               </p>
               <div className={styles.resultsFlexbox}>
                 {dummyResults.map((result, idx) => {
+                  let newDate = new Date(result.PredictionDate);
+                  newDate.setHours(newDate.getHours() - 7);
                   return (
                     <div className={styles.resultCard}>
                       <h3 className={styles.resultHeading}>
@@ -116,7 +117,7 @@ const SearchTest = () => {
                       <div className={styles.resultFlex}>
                         <p className={styles.resultInfoL}>Date</p>
                         <p className={styles.resultInfoR}>
-                          {formatDate(result.PredictionDate)}
+                          {formatDate(newDate)}
                         </p>
                       </div>
                       <div className={styles.resultFlex}>
