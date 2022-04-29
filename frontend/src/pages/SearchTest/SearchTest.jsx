@@ -14,7 +14,8 @@ const SearchTest = () => {
   const [dummyResults, setDummyResults] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const URL = "https://dna-pattern-matching.herokuapp.com/api/predictions/";
+  // const URL = "https://dna-pattern-matching.herokuapp.com/api/predictions/";
+  const URL = "http://localhost:3000/api/predictions/";
 
   useEffect(() => {}, [dummyResults]);
 
@@ -24,6 +25,7 @@ const SearchTest = () => {
     /* Catatan: akses text yang ada di input search di variabel searchValue! */
     const searchValue = searchRef.current.value;
     const queryParams = inputMatching(searchValue);
+    console.log(queryParams);
     if (queryParams == -1) {
       setIsSubmitted(false);
       toast.error("Please input a valid search query.");

@@ -25,11 +25,13 @@ const DnaTest = () => {
   const [text, setText] = useState("");
   const [valid, setValid] = useState(true);
   const [file, setFile] = useState(false);
-  const URL = "https://dna-pattern-matching.herokuapp.com/api/predictions/";
+  // const URL = "https://dna-pattern-matching.herokuapp.com/api/predictions/";
+  const URL = "http://localhost:3000/api/predictions/";
   const [method, setMethod] = useState("kmp");
 
   const fetchDiseases = async (e) => {
-    const diseasesURL = "https://dna-pattern-matching.herokuapp.com/api/diseases/";
+    // const diseasesURL = "https://dna-pattern-matching.herokuapp.com/api/diseases/";
+    const diseasesURL = "http://localhost:3000/api/diseases/";
     const response = await axios.get(diseasesURL);
     setDiseases(response.data);
   }
@@ -97,12 +99,16 @@ const DnaTest = () => {
       });
       return;
     } else {
+      let tempDate = new Date();
+      tempDate.setHours(tempDate.getHours() + 7);
       let body = {
         User: nameRef.current.value,
         Disease: disease,
         DNASequence: text,
         IsKMP: method === "kmp" ? true : false,
+        PredictionDate: tempDate
       };
+      console.log(body);
       setIsLoading(true);
       axios({
         method: "post",

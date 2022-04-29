@@ -9,4 +9,7 @@ export default defineConfig({
       include: [/node_modules/],
     },
   },
+  server: {
+    port: 8080
+  }
 });

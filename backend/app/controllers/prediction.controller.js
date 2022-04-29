@@ -10,9 +10,9 @@ const Prediction = db.predictions
 
 // FUNCTION
 exports.create = (req, res) => {
-    const { User, Disease, DNASequence, IsKMP } = req.body
+    const { User, Disease, DNASequence, IsKMP, PredictionDate } = req.body
 
-    if (User && Disease && DNASequence) {
+    if (User && Disease && DNASequence && PredictionDate) {
         const DiseaseDB = db.diseases
 
         DiseaseDB.findOne({
@@ -27,7 +27,8 @@ exports.create = (req, res) => {
                     User: User,
                     Disease: Disease,
                     Similarity: Similarity,
-                    PredictionStatus: PredictionStatus
+                    PredictionStatus: PredictionStatus,
+                    PredictionDate: PredictionDate
                 }
 
                 Prediction.create(prediction)

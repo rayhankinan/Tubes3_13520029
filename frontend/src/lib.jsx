@@ -24,10 +24,10 @@ const inputMatching = (input) => {
       date = parsingDate(temp.slice(0, 3));
       disease = temp[3];
     }
-    return { PredictionDate: formatDateUTC(date), Disease: disease };
+    return { PredictionDate: date, Disease: disease };
   } else if (allDate.test(input)) {
     date = parsingDate(temp);
-    return { PredictionDate: formatDateUTC(date) };
+    return { PredictionDate: date };
   } else if (penyakit.test(input)) {
     return { Disease: input };
   } else {
@@ -91,13 +91,6 @@ const formatDate = (date) => {
   } ${formattedDate.getFullYear()}`;
 };
 
-const formatDateUTC = (date) => {
-  let formattedDate = new Date(date);
-  return `${formattedDate.getUTCFullYear()}-${
-    formattedDate.getUTCMonth() + 1
-  }-${formattedDate.getUTCDate()}`;
-};
-
 const formatSimilarty = (nums) => {
   // nums = nums.parseInt(nums);
   return `${100 * parseFloat(nums)}%`;
@@ -114,6 +107,5 @@ export {
   parsingDate,
   formatDate,
   formatSimilarty,
-  geneticDisorderMatching,
-  formatDateUTC,
+  geneticDisorderMatching
 };

@@ -22,7 +22,6 @@ module.exports = (sequelize) => {
     },
     PredictionDate: {
       type: Sequelize.DATE,
-      defaultValue: Sequelize.NOW,
       allowNull: false,
     },
     Similarity: {
