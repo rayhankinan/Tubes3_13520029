@@ -9,15 +9,17 @@ import axios from "axios";
 import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Loading from "../Loading";
+import Select from 'react-select';
 
 const DnaTest = () => {
   const textRef = useRef(null);
   const infoRef = useRef(null);
   const nameRef = useRef(null);
-  const diseaseRef = useRef(null);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [diseases, setDiseases] = useState([]);
+  const [disease, setDisease] = useState("");
   const [data, setData] = useState({});
   const [date, setDate] = useState("");
   const [text, setText] = useState("");
@@ -26,7 +28,23 @@ const DnaTest = () => {
   const URL = "https://dna-pattern-matching.herokuapp.com/api/predictions/";
   const [method, setMethod] = useState("kmp");
 
+  const fetchDiseases = async (e) => {
+    const diseasesURL = "https://dna-pattern-matching.herokuapp.com/api/diseases/";
+    const response = await axios.get(diseasesURL);
+    setDiseases(response.data);
+  }
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchDiseases();
+    setIsLoading(false);
+  }, [])
+
   useEffect(() => {}, [data]);
+
+  const handleChange = (selectedOption) => {
+    setDisease(selectedOption.value);
+  }
 
   const showFile = async (e) => {
     e.preventDefault();
@@ -42,7 +60,7 @@ const DnaTest = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (nameRef.current.value == "" || diseaseRef.current.value == "") {
+    if (nameRef.current.value === "" || disease === "") {
       toast.error("Please fill out the form first!", {
         position: "bottom-center",
         autoClose: 2000,
@@ -81,7 +99,7 @@ const DnaTest = () => {
     } else {
       let body = {
         User: nameRef.current.value,
-        Disease: diseaseRef.current.value,
+        Disease: disease,
         DNASequence: text,
         IsKMP: method === "kmp" ? true : false,
       };
@@ -185,12 +203,13 @@ const DnaTest = () => {
               </p>
             </div>
           </label>
-          <input
-            type="text"
-            className={styles.diseaseInput}
-            placeholder="Disease name"
-            ref={diseaseRef}
-          />
+          <div style={{width: "100%"}}>
+            <Select options={
+              diseases.map((disease) => {
+                return {value: disease.Name, label: disease.Name};
+              })
+            } onChange={handleChange} />
+          </div>
           <div className={styles.radioContainer}>
             <div className={styles.radioFlex}>
               <input
@@ -206,7 +225,7 @@ const DnaTest = () => {
                 checked={method === "bm"}
                 onChange={() => setMethod("bm")}
               />
-              <p>Test using Bayer-Moore pattern searching algorithm</p>
+              <p>Test using Boyer-Moore pattern searching algorithm</p>
             </div>
           </div>
           <button className={styles.uploadButton}>Submit</button>
